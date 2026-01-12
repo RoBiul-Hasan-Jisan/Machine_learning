@@ -1,0 +1,1063 @@
+
+Instance-based
+
+KNN Regressor
+
+Support Vector Methods
+
+SVR (Support Vector Regression)
+
+Probabilistic/Statistical Models
+
+Gaussian Process Regression
+
+Quantile Regression
+
+ARIMA/SARIMA (time series)
+
+Neural Networks
+
+ANN Regression (MLPs)
+
+RNN/LSTM/GRU Regression (time series)
+
+Transformer Regression Models
+
+B. Classification Algorithms
+
+Support Vector Machines
+
+SVC (Support Vector Classifier)
+
+Linear SVC
+
+RBF SVC
+
+Polynomial SVC
+
+Instance-based
+
+KNN Classifier
+
+Bayes Classifiers
+
+Gaussian Naive Bayes
+
+Multinomial Naive Bayes
+
+Bernoulli Naive Bayes
+
+Complement Naive Bayes
+
+Ensemble Methods
+
+Bagging Classifier
+
+AdaBoost Classifier
+
+Stacking Classifier
+
+Voting Classifier
+
+Gradient Boosting (already covered)
+
+Neural Networks
+
+ANN Classification (MLPs)
+
+CNN (Image Classification)
+
+RNN/LSTM Classification
+
+Transformer Classification (BERT, etc.)
+
+C. Algorithms Handling Both
+
+KNN
+
+SVM (SVC/SVR)
+
+Neural Networks
+
+
+
+
+
+3. k-Nearest Neighbors
+
+KNN Regressor
+
+4. Support Vector Machines
+
+SVR (Support Vector Regression)
+
+5. Probabilistic / Statistical Models
+
+ARIMA / SARIMA (time series)
+
+Gaussian Process Regression
+
+Quantile Regression
+
+6. Neural Network Models
+
+Artificial Neural Networks (ANN Regression)
+
+RNN / LSTM / GRU (Regression for time series)
+
+Transformer Regression Models
+
+Classification Algorithms
+
+Used for predicting categories/labels.
+
+ 
+
+3. Support Vector Machines
+
+SVC (Support Vector Classifier)->done
+
+Linear SVC->done
+
+RBF SVC->done
+
+4. k-Nearest Neighbors
+
+KNN Classifier-done 
+
+5. Bayes Classifiers
+
+Naive Bayes->done 
+
+Gaussian NB
+
+Multinomial NB
+
+Bernoulli NB
+
+Complement NB
+
+6. Ensemble Methods
+
+
+Stacking Classifier
+
+Voting Classifier
+
+7. Neural Network Models
+
+Artificial Neural Networks (ANN Classification)
+
+CNN (Image classification)
+
+RNN / LSTM Classification
+
+Transformer-based Classification (e.g., BERT)
+
+Algorithms that handle BOTH (Regression + Classification)
+
+
+k-Nearest Neighbors (KNN)
+
+SVM (SVC, SVR)
+
+Neural Networks
+
+Classical Algorithms
+
+(Still asked in exams/interviews)
+
+
+
+
+
+
+1. Clustering Algorithms
+Partition-based
+
+K-Means, K-Medoids/PAM
+
+K-Modes, K-Medians
+
+Fuzzy C-Means, Mini-Batch K-Means
+
+Hierarchical
+
+Agglomerative Clustering
+
+Divisive Clustering
+
+BIRCH, CURE, ROCK
+
+Linkage methods: Single, Complete, Average, Ward's
+
+Density-based
+
+DBSCAN, OPTICS, HDBSCAN
+
+DENCLUE
+
+Grid-based
+
+STING, CLIQUE, WaveCluster
+
+Model-based/Probabilistic
+
+Gaussian Mixture Models (GMM)
+
+Expectation-Maximization (EM)
+
+Latent Dirichlet Allocation (LDA) - for text
+
+Spectral Clustering
+
+Affinity Propagation, Mean Shift
+
+2. Dimensionality Reduction
+Linear Methods
+
+Principal Component Analysis (PCA)
+
+Factor Analysis, Independent Component Analysis (ICA)
+
+Non-negative Matrix Factorization (NMF)
+
+Linear Discriminant Analysis (LDA)*
+
+Singular Value Decomposition (SVD), Truncated SVD
+
+Non-linear/Manifold Learning
+
+t-SNE (t-Distributed Stochastic Neighbor Embedding)
+
+UMAP (Uniform Manifold Approximation and Projection)
+
+Isomap, Locally Linear Embedding (LLE)
+
+Multidimensional Scaling (MDS)
+
+Kernel PCA, Laplacian Eigenmaps
+
+Neural Network Based
+
+Autoencoders (Vanilla, Sparse, Denoising, Contractive)
+
+Variational Autoencoders (VAEs)
+
+3. Association Rule Mining
+Apriori Algorithm
+
+Eclat Algorithm
+
+FP-Growth Algorithm
+
+Market Basket Analysis
+
+Metrics: Support, Confidence, Lift, Conviction
+
+4. Anomaly/Outlier Detection
+Statistical Methods
+
+Z-Score, Interquartile Range (IQR)
+
+Grubbs' Test
+
+Distance-based
+
+K-NN based methods
+
+Local Outlier Factor (LOF)
+
+Density-based
+
+Isolation Forest
+
+One-Class SVM
+
+Elliptic Envelope
+
+Reconstruction-based
+
+Autoencoders for anomaly detection
+
+5. Topic Modeling (Text)
+Probabilistic Models
+
+Latent Dirichlet Allocation (LDA)
+
+Probabilistic LSA (pLSA)
+
+Hierarchical Dirichlet Process (HDP)
+
+Correlated Topic Models (CTM)
+
+Matrix Factorization
+
+Latent Semantic Analysis (LSA)/Indexing (LSI)
+
+Non-negative Matrix Factorization (NMF) for text
+
+6. Neural Network-based Approaches
+Autoencoders & Variants
+
+Vanilla, Sparse, Denoising, Contractive Autoencoders
+
+Variational Autoencoders (VAEs)
+
+Neural Discrete Representation Learning (VQ-VAE)
+
+Generative Models
+
+Generative Adversarial Networks (GANs)
+
+Restricted Boltzmann Machines (RBMs)
+
+Deep Belief Networks (DBNs)
+
+Normalizing Flows
+
+Self-Supervised Learning
+
+Contrastive Learning (SimCLR, MoCo)
+
+Masked Language Modeling (BERT-style)
+
+Predictive Coding
+
+Neural Clustering
+
+Deep Embedded Clustering (DEC)
+
+DeepCluster
+
+7. Representation Learning
+Deep Metric Learning
+
+Disentangled Representation Learning
+
+Self-Supervised Learning
+
+Transfer Learning with unsupervised pre-training
+
+8. Density Estimation
+Kernel Density Estimation (KDE)
+
+Parzen Windows
+
+Histogram-based Methods
+
+Gaussian Mixture Models
+
+9. Self-Organizing Maps
+Kohonen Networks
+
+Neural Gas
+
+Growing Neural Gas
+
+10. Ensemble Methods for Unsupervised Learning
+Consensus Clustering
+
+Cluster Ensembles
+
+Subspace Clustering
+
+11. Time Series Unsupervised Learning
+Change Point Detection
+
+Motif Discovery
+
+Time Series Clustering
+
+Shapelet Discovery
+
+12. Graph-based Methods
+Community Detection
+
+Louvain Method
+
+Girvan-Newman
+
+Label Propagation
+
+Spectral Clustering
+
+Node Embeddings
+
+DeepWalk, Node2Vec
+
+Graph Neural Networks (unsupervised variants)
+
+13. Evaluation Metrics
+Clustering Evaluation
+
+Silhouette Score
+
+Davies-Bouldin Index
+
+Calinski-Harabasz Index
+
+Dunn Index
+
+Rand Index, Adjusted Rand Index
+
+Mutual Information Scores
+
+Dimensionality Reduction Evaluation
+
+Explained Variance Ratio (PCA)
+
+Reconstruction Error
+
+Trustworthiness, Continuity
+
+14. Practical Applications & Hybrid Approaches
+Customer Segmentation
+
+Feature Engineering
+
+Data Compression
+
+Recommendation Systems (collaborative filtering)
+
+Missing Value Imputation
+
+Data Visualization
+
+PCA + Classifier
+
+Autoencoder + Classifier
+
+Clustering as feature engineering
+
+Semi-supervised learning
+
+15. Theoretical Foundations
+Information Theory in unsupervised learning
+
+Statistical Learning Theory for unsupervised methods
+
+Information Bottleneck Principle
+
+Minimum Description Length
+
+16. Emerging Areas
+Self-supervised learning
+
+Unsupervised domain adaptation
+
+Meta-learning for unsupervised tasks
+
+Causal representation learning
+
+Physics-informed unsupervised learning
+
+What's Still Missing? (The 1%)
+1. Advanced Self-Supervised Learning Methods
+BYOL (Bootstrap Your Own Latent)
+
+SwAV (Swapping Assignments between Views)
+
+DINO (self-distillation with no labels)
+
+Barlow Twins
+
+SimSiam
+
+2. Modern Generative Models
+Diffusion Models (DDPM, Score-based models)
+
+Flow-based models (Glow, RealNVP)
+
+VQ-VAE-2, VQ-GAN
+
+Normalizing Flows (MAF, RealNVP, Glow)
+
+3. Graph Unsupervised Learning (Advanced)
+Graph Autoencoders
+
+Graph Contrastive Learning
+
+Self-supervised Graph Learning
+
+Hypergraph Learning
+
+4. Multimodal Unsupervised Learning
+CLIP (Contrastive Language-Image Pre-training)
+
+DALL-E (concept)
+
+Cross-modal retrieval
+
+Multimodal representation learning
+
+5. Advanced Time Series
+Temporal clustering
+
+Time series representation learning (TS2Vec, T-Loss)
+
+Anomaly detection in multivariate time series
+
+6. Unsupervised Reinforcement Learning
+Curiosity-driven exploration
+
+Intrinsic motivation
+
+Unsupervised skill discovery
+
+7. Causal Discovery Methods
+PC algorithm
+
+NOTEARS
+
+Causal structure learning
+
+Independent Component Analysis for causal discovery
+
+Priority Order for Learning
+Must Know (Interview/Job Ready)
+K-Means, Hierarchical, DBSCAN
+
+PCA, t-SNE/UMAP
+
+Autoencoders, GMM
+
+LDA (topic modeling)
+
+Isolation Forest, One-Class SVM
+
+Evaluation metrics (Silhouette, Davies-Bouldin)
+
+Should Know (Intermediate Level)
+Spectral Clustering, Affinity Propagation
+
+ICA, NMF, SVD
+
+GANs basics, VAEs
+
+Association rules (Apriori, FP-Growth)
+
+Local Outlier Factor (LOF)
+
+Self-organizing maps
+
+Nice to Know (Advanced/Specialized)
+Deep clustering methods
+
+Self-supervised learning
+
+Graph-based methods
+
+Time series unsupervised
+
+Advanced generative models
+
+Theoretical foundations
+
+1. Clustering Algorithms
+Partition-based
+
+K-Means
+
+K-Medoids/PAM
+
+K-Modes
+
+K-Medians
+
+Fuzzy C-Means
+
+Hierarchical
+
+Agglomerative Clustering
+
+Divisive Clustering
+
+BIRCH
+
+CURE
+
+ROCK
+
+Density-based
+
+DBSCAN
+
+OPTICS
+
+HDBSCAN
+
+DENCLUE
+
+Grid-based
+
+STING
+
+CLIQUE
+
+WaveCluster
+
+Model-based
+
+Gaussian Mixture Models (GMM)
+
+Expectation-Maximization (EM) Algorithm
+
+Latent Dirichlet Allocation (LDA) - for text
+
+Spectral Clustering
+
+Affinity Propagation
+
+Mean Shift
+
+2. Dimensionality Reduction
+Linear Methods
+
+Principal Component Analysis (PCA)
+
+Factor Analysis
+
+Independent Component Analysis (ICA)
+
+Non-negative Matrix Factorization (NMF)
+
+Linear Discriminant Analysis (LDA)* (*technically supervised but often used in unsupervised contexts)
+
+Singular Value Decomposition (SVD)
+
+Non-linear/Manifold Learning
+
+t-SNE (t-Distributed Stochastic Neighbor Embedding)
+
+UMAP (Uniform Manifold Approximation and Projection)
+
+Isomap
+
+Locally Linear Embedding (LLE)
+
+Multidimensional Scaling (MDS)
+
+Autoencoders (neural network approach)
+
+Kernel PCA
+
+Laplacian Eigenmaps
+
+3. Association Rule Learning
+Apriori Algorithm
+
+Eclat Algorithm
+
+FP-Growth Algorithm
+
+Market Basket Analysis
+
+4. Anomaly/Outlier Detection
+Statistical Methods
+
+Z-Score
+
+Interquartile Range (IQR)
+
+Grubbs' Test
+
+Distance-based
+
+K-NN based methods
+
+Local Outlier Factor (LOF)
+
+Density-based
+
+Isolation Forest
+
+One-Class SVM
+
+Reconstruction-based
+
+Autoencoders for anomaly detection
+
+5. Neural Network-based Approaches
+Autoencoders
+
+Vanilla Autoencoders
+
+Sparse Autoencoders
+
+Denoising Autoencoders
+
+Contractive Autoencoders
+
+Variational Autoencoders (VAEs)
+
+Generative Models
+
+Generative Adversarial Networks (GANs)
+
+Restricted Boltzmann Machines (RBMs)
+
+Deep Belief Networks (DBNs)
+
+Self-Supervised Learning
+
+Contrastive Learning (SimCLR, MoCo)
+
+Masked Language Modeling (BERT-style)
+
+Predictive Coding
+
+Neural Clustering
+
+Deep Embedded Clustering (DEC)
+
+DeepCluster
+
+6. Topic Modeling (for Text)
+Latent Dirichlet Allocation (LDA)
+
+Latent Semantic Analysis (LSA)/Indexing (LSI)
+
+Non-negative Matrix Factorization (NMF) for text
+
+Hierarchical Dirichlet Process (HDP)
+
+Correlated Topic Models (CTM)
+
+7. Density Estimation
+Kernel Density Estimation (KDE)
+
+Parzen Windows
+
+Histogram-based Methods
+
+Gaussian Mixture Models
+
+8. Self-Organizing Maps
+Kohonen Networks
+
+Neural Gas
+
+Growing Neural Gas
+
+9. Ensemble Methods for Unsupervised Learning
+Consensus Clustering
+
+Cluster Ensembles
+
+Subspace Clustering
+
+10. Deep Unsupervised Learning
+Representation Learning
+
+Disentangled Representation Learning
+
+Deep Metric Learning
+
+Neural Discrete Representation Learning (VQ-VAE)
+
+Normalizing Flows
+
+11. Time Series Unsupervised Learning
+Change Point Detection
+
+Motif Discovery
+
+Time Series Clustering
+
+Shapelet Discovery
+
+12. Graph-based Methods
+Community Detection
+
+Louvain Method
+
+Girvan-Newman
+
+Label Propagation
+
+Node Embeddings
+
+DeepWalk
+
+Node2Vec
+
+Graph Neural Networks (unsupervised variants)
+
+13. Evaluation Metrics for Unsupervised Learning
+Clustering Metrics
+
+Silhouette Score
+
+Davies-Bouldin Index
+
+Calinski-Harabasz Index
+
+Dunn Index
+
+Rand Index, Adjusted Rand Index
+
+Mutual Information Scores
+
+Dimensionality Reduction Evaluation
+
+Reconstruction Error
+
+Trustworthiness
+
+Continuity
+
+14. Practical Applications & Hybrid Approaches
+Customer Segmentation
+
+Feature Engineering
+
+Data Compression
+
+Recommendation Systems (collaborative filtering)
+
+Missing Value Imputation
+
+Data Visualization
+
+Transfer Learning with unsupervised pre-training
+
+15. Theoretical Foundations
+Information Theory in unsupervised learning
+
+Statistical Learning Theory for unsupervised methods
+
+Information Bottleneck Principle
+
+Minimum Description Length
+
+Emerging Areas
+Self-supervised learning
+
+Unsupervised domain adaptation
+
+Meta-learning for unsupervised tasks
+
+Causal representation learning
+
+Physics-informed unsupervised learning
+
+
+
+
+
+
+
+
+🔹 1. Optimization Methods (MOST IMPORTANT)
+
+Used to minimize loss functions
+
+🔸 First-Order Methods (use gradient only)
+
+Gradient Descent
+
+Stochastic Gradient Descent (SGD)
+
+Mini-Batch Gradient Descent
+
+Momentum
+
+Nesterov Accelerated Gradient (NAG)
+
+Adagrad
+
+RMSProp
+
+Adam / AdamW
+
+📌 Used heavily in Deep Learning
+
+🔸 Second-Order Methods (use curvature)
+
+Newton–Raphson Method
+
+Quasi-Newton Methods
+
+BFGS
+
+L-BFGS
+
+Gauss–Newton Method
+
+Levenberg–Marquardt Algorithm
+
+📌 Used in:
+
+Logistic Regression
+
+GLMs
+
+Small/medium neural networks
+
+🔹 2. Linear Algebra Methods
+
+ML/DL is impossible without these 👇
+
+Matrix Multiplication
+
+Eigenvalues & Eigenvectors
+
+Singular Value Decomposition (SVD)
+
+LU / QR Decomposition
+
+Matrix Inversion
+
+Trace & Determinant
+
+📌 Used in:
+
+PCA
+
+Linear Regression
+
+Recommender Systems
+
+🔹 3. Calculus Methods
+🔸 Differential Calculus
+
+Partial Derivatives
+
+Chain Rule
+
+Jacobian Matrix
+
+Hessian Matrix
+
+📌 Used in:
+
+Backpropagation
+
+Optimization
+
+🔸 Integral Calculus
+
+Expectation (Integral form)
+
+Marginalization
+
+📌 Used in:
+
+Probabilistic models
+
+Bayesian ML
+
+🔹 4. Probability & Statistics Methods
+
+Maximum Likelihood Estimation (MLE)
+
+Maximum A Posteriori (MAP)
+
+Bayes’ Theorem
+
+Expectation–Maximization (EM) Algorithm
+
+Variance, Covariance
+
+Entropy
+
+Cross-Entropy Loss
+
+KL Divergence
+
+📌 Used in:
+
+Naive Bayes
+
+GMM
+
+VAEs
+
+🔹 5. Numerical Methods
+
+Root-Finding Methods
+
+Newton–Raphson
+
+Bisection
+
+Secant Method
+
+Numerical Differentiation
+
+Numerical Integration
+
+Finite Difference Methods
+
+📌 Used when analytical solution is impossible
+
+🔹 6. Convex Optimization Methods
+
+Lagrange Multipliers
+
+Karush–Kuhn–Tucker (KKT) Conditions
+
+Dual Optimization
+
+Projected Gradient Descent
+
+📌 Used in:
+
+SVM
+
+Constrained optimization
+
+🔹 7. Information Theory Methods
+
+Entropy
+
+Mutual Information
+
+Cross-Entropy
+
+KL Divergence
+
+📌 Used in:
+
+Decision Trees
+
+Deep Learning loss functions
+
+🔹 8. Graph & Dynamic Programming Methods
+
+Backpropagation (Dynamic Programming)
+
+Bellman Equation
+
+Value Iteration
+
+Policy Iteration
+
+📌 Used in:
+
+Reinforcement Learning
+
+🔹 9. Sampling & Approximation Methods
+
+Monte Carlo Methods
+
+Markov Chain Monte Carlo (MCMC)
+
+Gibbs Sampling
+
+Importance Sampling
+
+📌 Used in:
+
+Bayesian Deep Learning
+
+🔹 10. Advanced DL-Specific Math
+
+Backpropagation Through Time (BPTT)
+
+Automatic Differentiation
+
+Gradient Clipping
+
+Batch Normalization (Statistical method

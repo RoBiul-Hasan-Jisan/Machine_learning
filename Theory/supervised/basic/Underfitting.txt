@@ -1,0 +1,38 @@
+What is Underfitting?
+
+Underfitting occurs when a model is too simple to capture the underlying pattern in the data.
+
+Result: poor performance on both training and test data.
+
+Intuition
+
+Imagine fitting a curve to some data points:
+
+Underfitting: A straight line tries to fit a complex curve → misses trends → high bias
+
+Good Fit: The curve captures the pattern → generalizes well
+
+Overfitting: The curve passes through all points → memorizes data → high variance
+
+Think: “The model doesn’t learn enough from the data.”
+
+
+Causes of Underfitting
+
+Model is too simple (not enough parameters)
+
+Not enough training (too few epochs)
+
+Features do not capture complex relationships
+
+Too much regularization
+
+
+How to Detect Underfitting
+
+Low accuracy on both training and test sets
+
+Model cannot capture obvious patterns in data
+
+
+Underfitting happens when a model is too simple to capture the data’s underlying pattern, leading to poor performance on both training and test sets. It can be fixed by using a more complex model, adding features, reducing regularization, or training longer.

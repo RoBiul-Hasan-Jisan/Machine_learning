@@ -1,0 +1,45 @@
+Recall=True Positives (TP)   /   True Positives (TP)+False Negatives (FN)
+
+Where:
+TP = Model predicted positive, and it was actually positive
+FN = Model predicted negative, but it was actually positiv
+	​
+Recall (also called Sensitivity or True Positive Rate) measures how well a model identifies actual positive cases.
+
+
+Recall answers the question:
+
+“Out of all the actual positives, how many did the model correctly identify?”
+
+High recall → few false negatives
+
+Low recall → many missed positive cases
+
+
+When to Use Recall
+
+Important when missing a positive case is costly
+
+Examples:
+
+Disease detection: Missing a sick patient (false negative) is dangerous → we want high recall.
+
+Fraud detection: Missing a fraudulent transaction (false negative) is costly → high recall matters.
+
+
+Precision = focuses on how many predicted positives are correct
+
+Recall = focuses on how many actual positives were detected
+
+Trade-off exists:
+
+Increasing recall may decrease precision (catch more positives → more false positives)
+
+Increasing precision may decrease recall (fewer false positives → may miss positives)
+
+Combine both with F1-score:  same  as precision
+
+  F1=2⋅Precision⋅Recall    ​/   Precision + Recall
+
+
+Recall is the ratio of true positives to all actual positives. It measures how well a model identifies positive cases, with high recall indicating few missed positives. It is crucial when missing positive cases has serious consequences, such as in medical diagnosis or fraud detection

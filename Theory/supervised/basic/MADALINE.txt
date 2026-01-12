@@ -1,0 +1,37 @@
+MADALINE (Multiple ADALINEs)
+
+Definition:
+
+MADALINE is multiple ADALINE units combined in a network.
+
+Usually has input layer → hidden layer → output layer.
+
+Can solve some non-linear problems (still limited compared to modern MLPs).
+
+
+Key Points:
+Feature	             ADALINE                 	MADALINE
+Architecture	     Single neuron	            Multi-layer network
+Non-linear problem	 Cannot solve	            Can handle simple non-linear problems
+Learning Rule	     LMS (Least Mean Squares)	Rule I / Rule II (error correction)
+
+
+MADALINE Learning Rules:
+
+Rule I: Change one hidden unit at a time to reduce error
+
+Rule II: Modify output layer weights to reduce error
+
+Early predecessor of modern neural networks
+
+
+When to Use Them
+
+ADALINE: Small, linearly separable datasets; when smoother learning is needed.
+
+MADALINE: For problems that require more than one neuron, slightly more complex than ADALINE.
+
+Mostly historical importance; now we use MLPs with ReLU/sigmoid instead.
+
+
+MADALINE: Multiple ADALINE units, early network, can handle slightly non-linear problems.

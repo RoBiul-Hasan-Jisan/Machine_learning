@@ -30,7 +30,7 @@ Thumbs.db
 build/
 dist/
 *.egg-info/
-
+core/jakorbo.txt
 # Data files (optional - ignore large datasets)
 data/
 *.csv

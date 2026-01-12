@@ -1,0 +1,45 @@
+Precision=  True Positives (TP)​  / True Positives (TP)+False Positives (FP)
+
+
+Precision is a metric that tells us how accurate our positive predictions are.
+
+
+TP = Model predicted positive, and it was actually positive
+
+FP = Model predicted positive, but it was actually negativ
+
+Precision answers the question:
+
+“Out of all the samples I predicted as positive, how many were actually positive?”
+
+High precision → few false positives
+
+Low precision → many false positives
+
+
+When to Use Precision
+
+Important in imbalanced datasets
+
+Crucial when false positives are costly
+
+Examples:
+
+Email spam detection: Predicting spam incorrectly (false positive) may mark important email as spam → we want high precision.
+
+Disease detection: Predicting healthy as sick (false positive) may cause unnecessary treatment → precision matters.Relation with Recall
+
+Recall = How many actual positives were correctly predicted.
+
+Precision and recall often trade off:
+
+High precision → usually lower recall
+
+High recall → sometimes lower precision
+
+Combine both in F1-score:   F1=2⋅Precision⋅Recall    ​/   Precision + Recall
+
+
+Precision is the ratio of true positives to all predicted positives. 
+It tells us how many of the samples predicted as positive are actually correct.
+High precision means fewer false positives, and it is especially important when false positives are costly

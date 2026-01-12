@@ -1,0 +1,26 @@
+ADALINE (Adaptive Linear Neuron)
+Definition:
+
+ADALINE is like a perceptron, but instead of using a step function for output, it uses a linear activation.
+
+Weight updates are done using Mean Squared Error (MSE), not just the binary error.
+
+```
+
+Key Points:
+Feature	               Perceptron	                ADALINE
+Activation Function	 Step function	        Linear function (identity)
+Error Calculation	 Misclassification only	Continuous (MSE)
+Weight Update	     Perceptron rule	    Gradient descent
+Can learn	         inearly separable data	Linearly separable data
+```
+
+Weight Update Rule (Gradient Descent)
+w = w + η * (y_true - y_pred) * x
+b = b + η * (y_true - y_pred)
+Similar to perceptron, but y_pred is continuous, not binary.
+
+This allows smoother learning and better convergence.
+
+
+ADALINE: Continuous output, uses gradient descent, smoother learning.

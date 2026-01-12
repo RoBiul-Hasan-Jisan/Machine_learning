@@ -1,0 +1,36 @@
+What is Bias?
+
+Bias is the error introduced by approximating a real-world problem with a simplified model.
+
+In simple terms: how much the model’s predictions deviate from the actual values on average.
+
+High bias → model makes strong assumptions → may underfit the data.
+
+Low bias → model can fit training data well → less systematic error.
+
+
+Example
+
+Suppose you are trying to predict house prices.
+
+You use a linear model (straight line) for a non-linear dataset.
+
+The model cannot capture the true relationship → predictions are systematically off.
+
+This is high bias.
+
+
+
+Bias vs Variance
+
+Bias is part of the Bias-Variance tradeoff:
+
+Term	Meaning
+Bias	Error due to wrong assumptions → underfitting
+Variance	Error due to model being too sensitive to data → overfitting
+
+Goal: Balance bias and variance for best generalization.
+
+
+
+Bias is the error caused by simplifying assumptions in the model. High bias means the model is too simple and underfits the data, missing patterns. It is part of the bias-variance tradeoff in machine learning.

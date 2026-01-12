@@ -1,0 +1,76 @@
+
+
+
+Z-Score (or Modified Z-Score – MAD)
+
+ Best for: Normal distribution
+ Easy, fast
+ Main use in numeric features
+
+Use when: data is mostly symmetric.
+
+
+
+IQR Method (Boxplot Rule)
+
+ Best for: skewed data
+ Most common in real datasets
+ Simple threshold:
+
+Lower bound = Q1 – 1.5 × IQR
+
+Upper bound = Q3 + 1.5 × IQR
+
+Use when: dataset is not normal.
+
+
+
+
+
+
+Isolation Forest (Most Used in ML)
+
+ Works for big datasets
+ Unsupervised
+ Detects complicated outliers
+ Very powerful
+
+Use when:
+
+You have mixed distributions
+
+High-dimensional data
+
+
+
+
+Local Outlier Factor (LOF)
+
+ Good for density-based outliers
+ Finds points in sparse regions
+
+Use when: cluster-type data.
+
+
+
+DBSCAN (Cluster + Noise Detection)
+
+ Detects noise automatically
+ Good for spatial / cluster datasets
+
+Use when: you want clustering + outlier detection.
+
+
+
+
+Winsorization / Capping (Handling)
+
+ Instead of removing values, cap them
+ Safer for ML models
+ Very useful in finance & health data
+
+Example:
+
+Replace values > 99th percentile
+
+Replace values < 1st percentile
