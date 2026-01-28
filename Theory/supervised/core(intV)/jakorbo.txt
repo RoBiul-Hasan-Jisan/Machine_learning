@@ -1,176 +1,4 @@
 
-Instance-based
-
-KNN Regressor
-
-Support Vector Methods
-
-SVR (Support Vector Regression)
-
-Probabilistic/Statistical Models
-
-Gaussian Process Regression
-
-Quantile Regression
-
-ARIMA/SARIMA (time series)
-
-Neural Networks
-
-ANN Regression (MLPs)
-
-RNN/LSTM/GRU Regression (time series)
-
-Transformer Regression Models
-
-B. Classification Algorithms
-
-Support Vector Machines
-
-SVC (Support Vector Classifier)
-
-Linear SVC
-
-RBF SVC
-
-Polynomial SVC
-
-Instance-based
-
-KNN Classifier
-
-Bayes Classifiers
-
-Gaussian Naive Bayes
-
-Multinomial Naive Bayes
-
-Bernoulli Naive Bayes
-
-Complement Naive Bayes
-
-Ensemble Methods
-
-Bagging Classifier
-
-AdaBoost Classifier
-
-Stacking Classifier
-
-Voting Classifier
-
-Gradient Boosting (already covered)
-
-Neural Networks
-
-ANN Classification (MLPs)
-
-CNN (Image Classification)
-
-RNN/LSTM Classification
-
-Transformer Classification (BERT, etc.)
-
-C. Algorithms Handling Both
-
-KNN
-
-SVM (SVC/SVR)
-
-Neural Networks
-
-
-
-
-
-3. k-Nearest Neighbors
-
-KNN Regressor
-
-4. Support Vector Machines
-
-SVR (Support Vector Regression)
-
-5. Probabilistic / Statistical Models
-
-ARIMA / SARIMA (time series)
-
-Gaussian Process Regression
-
-Quantile Regression
-
-6. Neural Network Models
-
-Artificial Neural Networks (ANN Regression)
-
-RNN / LSTM / GRU (Regression for time series)
-
-Transformer Regression Models
-
-Classification Algorithms
-
-Used for predicting categories/labels.
-
- 
-
-3. Support Vector Machines
-
-SVC (Support Vector Classifier)->done
-
-Linear SVC->done
-
-RBF SVC->done
-
-4. k-Nearest Neighbors
-
-KNN Classifier-done 
-
-5. Bayes Classifiers
-
-Naive Bayes->done 
-
-Gaussian NB
-
-Multinomial NB
-
-Bernoulli NB
-
-Complement NB
-
-6. Ensemble Methods
-
-
-Stacking Classifier
-
-Voting Classifier
-
-7. Neural Network Models
-
-Artificial Neural Networks (ANN Classification)
-
-CNN (Image classification)
-
-RNN / LSTM Classification
-
-Transformer-based Classification (e.g., BERT)
-
-Algorithms that handle BOTH (Regression + Classification)
-
-
-k-Nearest Neighbors (KNN)
-
-SVM (SVC, SVR)
-
-Neural Networks
-
-Classical Algorithms
-
-(Still asked in exams/interviews)
-
-
-
-
-
 
 1. Clustering Algorithms
 Partition-based
@@ -1060,4 +888,16 @@ Automatic Differentiation
 
 Gradient Clipping
 
-Batch Normalization (Statistical method
+Batch Normalization (Statistical method )
+
+
+
+Time Series Forecasting: ARIMA, SARIMA, LSTM
+
+Natural Language Processing (NLP): BERT, GPT, Transformers
+
+Computer Vision: CNNs, object detection, segmentation
+
+Reinforcement Learning: OpenAI Gym, policy gradients
+
+Generative Models: GANs, VAEs

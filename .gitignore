@@ -42,12 +42,5 @@ data/
 /health_insurance_premium_predictor/
 /Nasa
 /Nasa_Data
-Matplotlib + Seaborn → Data visualization
 
-Scikit-Learn (preprocessing + ML models) → Core ML
-
-Statsmodels (optional) → For deep statistical understanding
-
-XGBoost / LightGBM → Competitive ML models
-
-TensorFlow / PyTorch → Deep Learning
+Theory/supervised/core(intV)/jakorbo.txt
