@@ -9,7 +9,7 @@ K-Modes, K-Medians
 
 Fuzzy C-Means, Mini-Batch K-Means
 
-Hierarchical
+Hierarchical - done 
 
 Agglomerative Clustering
 
@@ -21,7 +21,7 @@ Linkage methods: Single, Complete, Average, Ward's
 
 Density-based
 
-DBSCAN, OPTICS, HDBSCAN
+DBSCAN - done , OPTICS, HDBSCAN
 
 DENCLUE
 
@@ -31,20 +31,22 @@ STING, CLIQUE, WaveCluster
 
 Model-based/Probabilistic
 
-Gaussian Mixture Models (GMM)
+Gaussian Mixture Models (GMM)- done 
 
 Expectation-Maximization (EM)
 
 Latent Dirichlet Allocation (LDA) - for text
 
-Spectral Clustering
+Spectral Clustering - done 
 
 Affinity Propagation, Mean Shift
+
+
 
 2. Dimensionality Reduction
 Linear Methods
 
-Principal Component Analysis (PCA)
+Principal Component Analysis (PCA) done
 
 Factor Analysis, Independent Component Analysis (ICA)
 
@@ -56,9 +58,9 @@ Singular Value Decomposition (SVD), Truncated SVD
 
 Non-linear/Manifold Learning
 
-t-SNE (t-Distributed Stochastic Neighbor Embedding)
+t-SNE (t-Distributed Stochastic Neighbor Embedding)  done
 
-UMAP (Uniform Manifold Approximation and Projection)
+UMAP (Uniform Manifold Approximation and Projection)  done
 
 Isomap, Locally Linear Embedding (LLE)
 
@@ -73,7 +75,7 @@ Autoencoders (Vanilla, Sparse, Denoising, Contractive)
 Variational Autoencoders (VAEs)
 
 3. Association Rule Mining
-Apriori Algorithm
+Apriori Algorithm done
 
 Eclat Algorithm
 
@@ -279,6 +281,7 @@ Meta-learning for unsupervised tasks
 Causal representation learning
 
 Physics-informed unsupervised learning
+
 
 What's Still Missing? (The 1%)
 1. Advanced Self-Supervised Learning Methods
