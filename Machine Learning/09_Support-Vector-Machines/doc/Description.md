@@ -1,4 +1,4 @@
-# Support Vector Machines: A Complete Guide
+# Support Vector Machines
 
 > **One-sentence version:** find the widest possible "street" between two groups of points, and use the middle of that street to classify new data.
 

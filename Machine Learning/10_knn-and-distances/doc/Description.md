@@ -1,4 +1,4 @@
-# K-Nearest Neighbors, Explained Simply
+# K-Nearest Neighbors
 
 > **The one-sentence version:** to guess what something is, look at the few things most like it and go with the majority.
 
