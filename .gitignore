@@ -14,7 +14,7 @@ ENV/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
-
+ml-basic-models
 # Logs
 *.log
 
