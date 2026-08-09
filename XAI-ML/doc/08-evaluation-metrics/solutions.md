@@ -1,0 +1,11 @@
+# Solutions — 08 Evaluation Metrics
+
+1. `Completeness = 1 - |0.8 - 0.75| / |0.8| = 1 - 0.0625 = 0.9375`. This is close to 1, meaning the explanation accounts for about 93.75% of the prediction — fairly complete, though not perfectly so (there's a small residual of 0.05 unexplained by the listed feature contributions).
+
+2. `worst area` is a strong candidate: larger tumor area is consistently associated with higher malignancy probability in this model (as seen in the PDP from lesson 05), so you'd expect the SHAP/explanation weight for `worst area` to be consistently negative (pushing toward Malignant) as the feature value increases — satisfying monotonicity.
+
+3. `Simplicity = 1 / (number of features in the explanation)`. With 2 features, simplicity = 0.5; with 30 features, simplicity ≈ 0.033. Since completeness generally improves as you include more of the true contributing features (fewer are "left out"), but simplicity mathematically shrinks as the feature count grows, the two metrics move in opposite directions — you must choose a point on that trade-off curve depending on the audience (doctor needs simplicity; researcher needs completeness).
+
+4. Demographic Parity requires equal *overall* acceptance rates across groups regardless of the true outcome (`P(Ŷ=1|A=a) = P(Ŷ=1)`), while Equal Opportunity only requires equal *true positive* rates among those who actually qualify (`P(Ŷ=1|Y=1,A=a) = P(Ŷ=1|Y=1)`). Example: if a hiring model correctly identifies qualified candidates equally well across groups (Equal Opportunity holds) but one group has genuinely fewer qualified candidates in the applicant pool, overall acceptance rates could still differ, violating Demographic Parity.
+
+5. Even if the raw predictions are stable, wildly different SHAP explanations for a barely-perturbed input mean users can't trust *why* the model made a decision — two nearly-identical patients could be told completely different "reasons" for the same outcome, undermining explanation reliability and making it easy to game or mistrust the system, even though the underlying prediction is fine. High `Robustness(x)` values (large expected explanation change under tiny perturbation) signal this instability.

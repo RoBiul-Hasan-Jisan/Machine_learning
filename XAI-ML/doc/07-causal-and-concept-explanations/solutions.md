@@ -1,0 +1,11 @@
+# Solutions — 07 Causal & Concept-Based Explanations
+
+1. Example: website page-load time and cart abandonment rate both spike during a big marketing sale event — neither causes the other directly; the sale event (a confounder driving huge traffic) causes both slower load times (server strain) and higher abandonment (impatient new visitors).
+
+2. `P(Y|X=x)` is the *observed* probability of Y given that X happened to equal x in the data — it can be confounded by whatever else was also true whenever X=x historically. `P(Y|do(X=x))` is the probability of Y if we *intervened* and forced X=x, breaking any other correlations. A black-box classifier trained on observational data only ever learns `P(Y|X=x)` because it never actually intervenes on the world — it just finds statistical patterns in historical (X, Y) pairs.
+
+3. Take images correctly classified as "wolf," identify a set with snowy backgrounds and a set without; train a linear classifier in the model's latent space to separate "has snow" vs "no snow" images (this defines the "snow" concept's CAV); then measure the TCAV score — the fraction of wolf-predicted images where the prediction's gradient direction aligns positively with the "snow" CAV. A high TCAV score for "snow" would indicate the model is inappropriately using background snow rather than the animal itself to distinguish wolf from husky.
+
+4. `I(feature_i; target) > 0` means knowing that feature reduces uncertainty about the target — the feature carries some predictive signal on its own. But if that signal is redundant with other features (e.g. two features that are near-duplicates of each other), then once you already know the *other* features, this one adds almost nothing new — its `Relevance` (unique information after conditioning on the rest) drops toward 0 even though its raw, unconditional mutual information was positive.
+
+5. Example SCM: `Exercise → Fitness → Injury Risk`. Structural equations: `Fitness = f_Fitness(Exercise, ε_Fitness)` and `Injury_Risk = f_InjuryRisk(Fitness, ε_InjuryRisk)`. Here `Exercise` plays the role of the exogenous/upstream variable (like `X` in the theory's SCM equations), `Fitness` is a mediating variable determined by a structural function of Exercise plus noise, and `Injury_Risk` (like `Y`) is determined by a structural function of Fitness plus its own noise term.

@@ -1,0 +1,7 @@
+# Exercises — 06 Counterfactual Explanations
+
+1. **Run it.** Run `code.ipynb` and list which features changed in the generated counterfactual, and by how much (%).
+2. **Sparsity.** Count how many features changed by more than 1%. Is this counterfactual sparse (few features changed) or does it spread small changes across many features? How would you modify `generate_counterfactual` to explicitly favor sparsity (fewer changed features)?
+3. **Plausibility problem.** Look at the counterfactual's feature values — are they all realistic values that could occur in an actual patient (compare to the range of `X_train` for those features)? What's one way you could constrain the search to stay within realistic bounds?
+4. **Distance metric.** The current generator effectively uses L2 (Euclidean) distance implicitly through random Gaussian noise. Rewrite the selection criterion (`best_distance`) to use L1 distance instead. Does the resulting counterfactual change fewer or more features?
+5. **Actionability.** Some features (like those describing tumor "texture" from a scan) are not things a patient could change through action, unlike, say, lifestyle-driven medical markers in other domains. Why does the theory (the theory section of `describe.md`) still call this counterfactual "Proximal" but not necessarily "Actionable"? What real-world domain would this method be more directly actionable in (e.g. loan approval)?
