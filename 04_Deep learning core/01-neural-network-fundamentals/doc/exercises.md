@@ -1,0 +1,8 @@
+# Exercises — 01 Neural Network Fundamentals
+
+1. **XOR by hand.** Using pen and paper, try to find weights `w₁, w₂` and bias `b` for a single perceptron with step activation that correctly classifies all 4 XOR inputs. Explain why you can't.
+2. **Activation choice.** For each of these output layers, name the correct activation function and explain why: (a) predicting house price, (b) predicting spam/not-spam, (c) predicting which of 10 digits (0-9) an image shows.
+3. **Dying ReLU.** Explain, using the ReLU formula, exactly why a neuron can get "stuck" always outputting 0, and why that neuron then stops learning entirely (hint: think about its gradient).
+4. **Chain rule trace.** For the 2-layer network in the code, write out (in words or symbols) the chain of derivatives that connects `∂Loss/∂W1` to the loss, passing through `a2`, `z2`, `a1`, `z1`. Which of these terms in the code's `backward()` method corresponds to each link in that chain?
+5. **Run and modify.** In `01-neural-network-fundamentals.ipynb`, change the hidden layer size from 8 to 2 neurons and retrain (both NumPy and PyTorch versions). Does the model still learn the two-moons boundary well? Why might a 2-neuron hidden layer struggle with this dataset in particular?
+6. **MSE vs BCE.** Retrain the NumPy network in Part A using `mse_loss` instead of `binary_cross_entropy` (you'll need to adjust the `backward()` gradient formula accordingly — `dL/da2` for MSE is `2*(a2-y)/n` before the sigmoid derivative, not the simplified `(a2-y)/n`). Does training converge faster, slower, or about the same? Relate this to the "Why not MSE for classification?" explanation in the theory.

@@ -1,0 +1,8 @@
+# Exercises — 05 Neural Network Initialization
+
+1. **All-zero thought experiment.** Without running any code, predict what would happen if you initialized every weight in a 2-layer network to exactly 0 (not small random values — literally 0) and started training with gradient descent. Would the loss ever decrease? Why or why not?
+2. **Run it.** In the NumPy comparison, note the activation std at layer depth 0 vs. depth 14 for `naive_small` on the Tanh network. Roughly how many orders of magnitude did it shrink by?
+3. **Depth matters.** Change `NUM_LAYERS` from 15 to 4 and rerun the forward-pass plots. Does `naive_small`/`naive_large` still look catastrophic at this shallower depth, or does the effect become much less dramatic? What does this tell you about when initialization matters most?
+4. **Mismatched pairing.** Run the ReLU network using **Xavier** initialization instead of He (`build_weights(scheme, ...)` with `xavier` scheme fed into the ReLU forward pass). Does activation scale stay as stable across depth as it does with He? Explain the mismatch using the theory's explanation of why ReLU "discards half" its inputs.
+5. **Gradient clipping.** The theory mentions gradient clipping as a mitigation for exploding gradients. Using the `forward_backward_track` function's output for `naive_large`, write a few lines of code that would clip each layer's gradient array to a maximum norm (e.g. `np.clip` or manually rescaling if `np.linalg.norm(grad) > max_norm`). At which layer(s) would clipping have made the biggest difference?
+6. **Biases.** The theory says weights (not necessarily biases) need random initialization to break symmetry. Explain why biases can safely be initialized to all zeros even though weights cannot.

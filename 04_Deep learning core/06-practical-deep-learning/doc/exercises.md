@@ -1,0 +1,8 @@
+# Exercises — 06 Practical Deep Learning
+
+1. **Diagnose from a description.** A colleague tells you: "My model gets 60% accuracy on training data and 58% on validation data." Is this underfitting, overfitting, or a good fit? What would you try first to improve it?
+2. **Bias-variance in your own words.** Explain why increasing a network's hidden layer size (more capacity) tends to *decrease* bias but *increase* variance. Use the underfitting/overfitting plots from the notebook as a concrete example.
+3. **Data leakage.** Explain what would go wrong, and why the final reported test performance would become untrustworthy, if you used the *test* set (instead of the validation set) to pick the best hyperparameters in the grid search cell.
+4. **Imbalanced accuracy trap.** Suppose a fraud-detection test set has 990 legitimate transactions and 10 fraudulent ones. A model predicts "legitimate" for all 1000. Compute its accuracy, precision, recall, and F1 for detecting fraud (the positive class). What do these numbers reveal that accuracy alone hides?
+5. **Threshold choice.** Using the ROC curve from the NumPy section, explain how you would choose a decision threshold different from 0.5 if false negatives were 10x more costly than false positives (e.g. a medical screening test). Would you want a higher or lower threshold than 0.5, and how would that affect precision vs. recall?
+6. **Grid vs. random search.** The notebook's grid search has 3×3=9 combinations. If you wanted to also tune `dropout_p` over 3 values, how many total combinations would full grid search need? At what point does grid search become impractical, and why might random search be a better choice as the number of hyperparameters grows?

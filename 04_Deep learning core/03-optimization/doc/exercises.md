@@ -1,0 +1,8 @@
+# Exercises — 03 Optimization
+
+1. **Why, not what.** Without looking at the formulas, explain in one sentence each *why* Momentum, RMSProp, and AdamW were introduced (what specific problem in the *previous* method did each one fix?).
+2. **EMA intuition.** Compute the first 3 steps of an EMA by hand: `β=0.9`, starting `EMA₀=0`, and observed values `x₁=10, x₂=0, x₃=10`. What does the result tell you about how EMA smooths noisy signals?
+3. **Run it.** In the NumPy comparison, change the ravine's steepness from `10*y**2` to `50*y**2` (update both `loss_fn` and `grad_fn`) and rerun. Does plain SGD's oscillation get better or worse? Do Momentum/Adam/AdamW still reach the minimum smoothly?
+4. **AdaGrad's failure mode.** Implement `adagrad_gd` yourself (accumulate the *sum*, not an EMA, of squared gradients, like in the theory's AdaGrad formula) on the same ravine problem, running for 200 steps instead of 50. Plot its trajectory. Does it stall out before reaching the minimum? Relate this to why RMSProp was introduced.
+5. **AdamW vs Adam.** Modify `adam_gd` to add naive L2 regularization the "old way" — add `weight_decay * w` directly to the gradient `g` before computing `m` and `v` — and compare its trajectory to `adamw_gd`'s. Do they converge to the exact same point? Why or why not?
+6. **Learning rate per optimizer.** Notice the NumPy code uses different default learning rates for SGD (`0.1`), RMSProp (`0.3`), and Adam (`0.5`). Try running all of them with `lr=0.1`. Which optimizers still perform reasonably, and which ones now converge much more slowly? What does this tell you about how "tunable" each optimizer's default learning rate is?

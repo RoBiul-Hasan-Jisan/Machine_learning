@@ -1,0 +1,8 @@
+# Exercises — 04 Regularization
+
+1. **Spot the overfitting.** In the "No regularization" plot, describe what you see happening to the gap between train and validation loss as training continues. At roughly what epoch does the validation loss stop improving?
+2. **L1 vs L2.** Modify `net_l2` to use `l1=0.01` instead of `l2=0.01` and retrain. Inspect `net_l1.W1` afterward — how many weights are close to exactly zero, compared to `net_l2.W1`? Does this match the theory's sparsity claim?
+3. **Dropout rate.** Retrain with `dropout_p=0.7` (much more aggressive) instead of `0.3`. What happens to the *training* loss curve specifically? Explain why an overly high dropout rate can start to hurt even training-set performance, not just help validation performance.
+4. **Early stopping patience.** Rerun `train_with_early_stopping` with `patience=5` (much more impatient) and then `patience=200` (much more patient). How does each setting change the resulting `best_epoch` and final validation loss? What's the risk of setting patience too low vs. too high?
+5. **Augmentation noise level.** Rerun `augment()` with `noise_std=0.01` (barely any jitter) and `noise_std=1.0` (huge jitter). Which one likely helps least, and why? (Hint: think about what "label-preserving" means — at what point does jitter risk actually changing which class a point should belong to?)
+6. **BatchNorm at inference.** The code's `batchnorm_forward` always uses batch statistics (`mu`, `var` computed live). Explain why this would be a problem at inference/test time if you're only given a single input to predict on (batch size = 1) — and what PyTorch's `model.eval()` does differently to solve it (hint: look up "running mean/variance").
