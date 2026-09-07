@@ -16,9 +16,11 @@ trade bias for variance?**
 For a model $\hat f$ trained on a random training set, the expected test
 error at a point $x$ decomposes as:
 
-```
+$$
 E[(y - f̂(x))²] = Bias(f̂(x))² + Var(f̂(x)) + σ²_noise
-```
+$$
+
+
 
 - **Bias** — error from the model being too *simple* to capture the true
   pattern (underfitting).
@@ -43,9 +45,9 @@ is *the* single unifying idea — keep it in mind as we go through the math.
 Ordinary training minimizes the negative log-likelihood of the data given
 weights $W$:
 
-```
+$$
 Ŵ_MLE = argmin_W  -log P(D | W)
-```
+$$
 
 This is maximum likelihood estimation (MLE), and it has no mechanism to
 prefer "simple" weights — it will happily drive weights to whatever values
@@ -54,10 +56,15 @@ fit the training set best, however large or specific.
 **Bayesian regularization** puts a *prior* $P(W)$ on the weights and
 maximizes the posterior instead:
 
-```
-Ŵ_MAP = argmax_W  P(W | D) = argmax_W  P(D | W)·P(W)
-       = argmin_W  [-log P(D | W)  -  log P(W)]
-```
+$$
+\hat{W}_{MAP}
+= \arg\max_W P(W \mid D)
+= \arg\max_W P(D \mid W)P(W)
+$$
+
+$$
+= \arg\min_W \left[-\log P(D \mid W) - \log P(W)\right]
+$$
 
 The `-log P(W)` term is exactly your regularization penalty. Two natural
 priors give you the two penalties from the base lesson:
@@ -65,10 +72,18 @@ priors give you the two penalties from the base lesson:
 **Gaussian prior → L2.** If each weight is assumed i.i.d. $w_i \sim
 \mathcal{N}(0, \tau^2)$, then:
 
-```
--log P(W) = -log ∏ᵢ [1/√(2πτ²)] exp(-wᵢ²/2τ²)
-          = (1/2τ²)·Σᵢ wᵢ²  +  const
-```
+$$
+-\log P(W)
+= -\log \prod_i
+\left[
+\frac{1}{\sqrt{2\pi\tau^2}}
+\exp\left(-\frac{w_i^2}{2\tau^2}\right)
+\right]
+$$
+
+$$
+= \frac{1}{2\tau^2}\sum_i w_i^2 + \text{const}
+$$
 
 That's a constant times $\Sigma w_i^2$ — precisely the L2 penalty, with
 $\lambda = 1/2\tau^2$. A **small prior variance $\tau^2$** (strong belief
@@ -79,9 +94,9 @@ Gaussian prior."
 **Laplace prior → L1.** If instead $w_i \sim \text{Laplace}(0, b)$, with
 density $\frac{1}{2b}\exp(-|w_i|/b)$:
 
-```
+$$
 -log P(W) = (1/b)·Σᵢ |wᵢ|  +  const
-```
+$$
 
 — exactly the L1 penalty, $\lambda = 1/b$. The Laplace distribution has a
 sharp peak (non-differentiable cusp) at zero and heavier tails than a
@@ -100,16 +115,20 @@ instead of the MLE.**
 
 The penalized objective:
 
-```
+$$
 minimize_W   L(W) + λ·R(W)
-```
+$$
 
 is the *Lagrangian relaxation* of a constrained problem:
 
-```
+$$
 minimize_W   L(W)
+$$
+
+$$
 subject to   R(W) ≤ t
-```
+$$
+
 
 for some budget $t$ that's a decreasing function of $\lambda$ (Lagrange
 multiplier duality — for convex $L$ and $R$, every $\lambda \geq 0$
@@ -144,9 +163,9 @@ SGD but *not* for Adam. Here's the derivation.
 **Plain SGD.** L2-regularized loss is $L_{tot} = L + \frac{\lambda}{2}\|W\|^2$.
 Its gradient adds $\lambda W$ to the raw gradient $g = \nabla L$:
 
-```
+$$
 W ← W - η(g + λW) = W - ηg - ηλW
-```
+$$
 
 That's exactly "take a normal SGD step, then shrink $W$ by factor
 $(1-\eta\lambda)$" — i.e. decoupled weight decay. **They're identical for
@@ -155,11 +174,18 @@ SGD.**
 **Adam.** Adam doesn't apply the raw gradient directly — it rescales each
 coordinate by a running estimate of its second moment:
 
-```
+$$
 m ← β₁m + (1-β₁)g
+$$
+
+$$
 v ← β₂v + (1-β₂)g²
+$$
+
+$$
 W ← W - η · m/(√v + ε)
-```
+$$
+
 
 If you fold the L2 penalty into $g$ (i.e. $g \to g + \lambda W$) *before*
 this, the $\lambda W$ term gets divided by $\sqrt{v}+\varepsilon$ along with
@@ -174,9 +200,9 @@ weight by a fixed proportion" behavior.
 **AdamW's fix** is to apply the decay *outside* Adam's normalization
 entirely:
 
-```
+$$
 W ← W - η·m/(√v + ε) - η·λ·W        (decay term added after, unscaled by v)
-```
+$$
 
 This restores the clean "shrink every weight by the same proportion each
 step" semantics, decoupled from the adaptive learning rate — hence
@@ -238,16 +264,16 @@ its eigendecomposition. Gradient descent with learning rate $\eta$, after
 $\tau$ steps, shrinks each eigen-direction $i$ toward $W_i^*$ by a factor
 that depends on that direction's eigenvalue $h_i$ and on $\tau$:
 
-```
+$$
 shrinkage factor ≈ 1 - (1 - ηh_i)^τ
-```
+$$
 
 Compare this to the closed-form solution of **L2-regularized** least
 squares, whose shrinkage factor in the same eigenbasis is:
 
-```
+$$
 shrinkage factor = h_i / (h_i + λ)
-```
+$$
 
 Both expressions do the same qualitative thing: **shrink low-curvature
 ("flat") directions more aggressively than high-curvature ("steep")
@@ -268,15 +294,42 @@ $m$, per-feature) requires differentiating through the batch statistics
 themselves, since $\mu_B$ and $\sigma_B^2$ are *functions of every example
 in the batch*:
 
-```
-∂L/∂x̂ᵢ = ∂L/∂yᵢ · γ
+$$
+\frac{\partial L}{\partial \hat{x}_i}= \frac{\partial L}{\partial y_i}\gamma
+$$
 
-∂L/∂σ²_B = Σᵢ ∂L/∂x̂ᵢ · (xᵢ - μ_B) · (-1/2)(σ²_B + ε)^(-3/2)
+$$
+\frac{\partial L}{\partial \sigma_B^2}=
+\sum_i
+\frac{\partial L}{\partial \hat{x}_i}
+(x_i-\mu_B)
+\left(-\frac{1}{2}\right)
+(\sigma_B^2+\epsilon)^{-3/2}
+$$
 
-∂L/∂μ_B  = Σᵢ ∂L/∂x̂ᵢ · (-1/√(σ²_B+ε))  +  ∂L/∂σ²_B · Σᵢ -2(xᵢ-μ_B)/m
+$$
+\frac{\partial L}{\partial \mu_B}=
+\sum_i
+\frac{\partial L}{\partial \hat{x}_i}
+\left(-\frac{1}{\sqrt{\sigma_B^2+\epsilon}}\right)
++
+\frac{\partial L}{\partial \sigma_B^2}
+\sum_i
+\frac{-2(x_i-\mu_B)}{m}
+$$
 
-∂L/∂xᵢ   = ∂L/∂x̂ᵢ/√(σ²_B+ε) + ∂L/∂σ²_B·2(xᵢ-μ_B)/m + ∂L/∂μ_B/m
-```
+$$
+\frac{\partial L}{\partial x_i}=
+\frac{\partial L}{\partial \hat{x}_i}
+\frac{1}{\sqrt{\sigma_B^2+\epsilon}}
++
+\frac{\partial L}{\partial \sigma_B^2}
+\frac{2(x_i-\mu_B)}{m}
++
+\frac{\partial L}{\partial \mu_B}
+\frac{1}{m}
+$$
+
 
 The key structural fact buried in this: **the gradient with respect to
 any single example $x_i$ depends on every other example in the batch**
