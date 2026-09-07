@@ -18,10 +18,12 @@ Everything in deep learning is built on a handful of ideas from this lesson: a s
 
 The perceptron is a single neuron that takes weighted inputs, sums them, adds a bias, and passes the result through an activation function:
 
-```
+$$
 z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b = w·x + b
+$$
+
 output = activation(z)
-```
+
 
 - `x` — inputs
 - `w` — weights (learned; how much each input matters)
@@ -36,10 +38,12 @@ output = activation(z)
 
 Rosenblatt's perceptron used a very simple update rule, applied one training example at a time:
 
-```
+$$
 w := w + η(y - ŷ)x
+$$
+$$
 b := b + η(y - ŷ)
-```
+$$
 
 If the perceptron predicts correctly, `y - ŷ = 0` and nothing changes. If it predicts wrong, the weights are nudged in the direction that would have made the correct answer more likely. This is a primitive ancestor of gradient descent (§7) — it moves weights based on the error, just without calculus behind it (the step activation isn't differentiable, so there's no gradient to take).
 
@@ -74,10 +78,13 @@ A neural network is perceptrons arranged in **layers**:
 
 Suppose every layer used a linear (identity) activation. Then:
 
-```
+$$
 a⁽¹⁾ = W⁽¹⁾x + b⁽¹⁾
+$$
+
+$$
 a⁽²⁾ = W⁽²⁾a⁽¹⁾ + b⁽²⁾ = W⁽²⁾(W⁽¹⁾x + b⁽¹⁾) + b⁽²⁾ = (W⁽²⁾W⁽¹⁾)x + (W⁽²⁾b⁽¹⁾ + b⁽²⁾)
-```
+$$
 
 That's just `W'x + b'` — a single linear layer in disguise. You could have a thousand layers and it would still only be able to represent what one layer can represent: a straight line (or hyperplane). This is why §4's activation functions aren't a minor implementation detail — they are the entire reason depth buys you anything at all.
 
@@ -99,12 +106,21 @@ A "deep" network has many layers; a "wide" network has many neurons per layer. D
 
 Forward propagation is applying the perceptron equation layer by layer until you reach the output:
 
-```
+$$
 z⁽¹⁾ = W⁽¹⁾x + b⁽¹⁾        a⁽¹⁾ = activation(z⁽¹⁾)
+$$
+
+$$
 z⁽²⁾ = W⁽²⁾a⁽¹⁾ + b⁽²⁾      a⁽²⁾ = activation(z⁽²⁾)
+$$
+
+$$
 ...
+$$
+
+$$
 ŷ = a⁽ᴸ⁾   (output of the final, L-th layer)
-```
+$$
 
 `W⁽ˡ⁾` is a **matrix** (one row per neuron in layer `l`, one column per input from layer `l-1`), because each layer has many neurons, not one. This is why deep learning is fundamentally matrix multiplication at scale — and why GPUs (built for parallel matrix math) accelerated the field so much.
 
@@ -112,26 +128,69 @@ z⁽²⁾ = W⁽²⁾a⁽¹⁾ + b⁽²⁾      a⁽²⁾ = activation(z⁽²⁾
 
 Take a tiny network: 2 inputs → 2 hidden neurons (ReLU) → 1 output neuron (Sigmoid).
 
-```
-x = [1.0, 0.5]
 
-W⁽¹⁾ = [[0.4, -0.6],     b⁽¹⁾ = [0.1, -0.2]
-        [0.3,  0.8]]
-```
+$$
+x =
+\begin{bmatrix}
+1.0 \\
+0.5
+\end{bmatrix}
+$$
+
+$$
+W^{(1)} =
+\begin{bmatrix}
+0.4 & -0.6 \\
+0.3 & 0.8
+\end{bmatrix},
+\qquad
+b^{(1)} =
+\begin{bmatrix}
+0.1 \\
+-0.2
+\end{bmatrix}
+$$
+
 
 Hidden layer pre-activation:
-```
+
+$$
 z⁽¹⁾₁ = 0.4(1.0) + (-0.6)(0.5) + 0.1 = 0.4 - 0.3 + 0.1 = 0.2
+$$
+
+$$
 z⁽¹⁾₂ = 0.3(1.0) + 0.8(0.5) + (-0.2) = 0.3 + 0.4 - 0.2 = 0.5
-```
+$$
 
-Apply ReLU: `a⁽¹⁾ = [max(0,0.2), max(0,0.5)] = [0.2, 0.5]`
+$$
+\text{Apply ReLU:}\qquad
+a^{(1)} = \begin{bmatrix}
+\max(0,0.2) \\
+\max(0,0.5)
+\end{bmatrix} = \begin{bmatrix}
+0.2 \\
+0.5
+\end{bmatrix}
+$$
 
-Output layer: `W⁽²⁾ = [0.7, -0.5]`, `b⁽²⁾ = 0.05`
-```
-z⁽²⁾ = 0.7(0.2) + (-0.5)(0.5) + 0.05 = 0.14 - 0.25 + 0.05 = -0.06
-ŷ = σ(-0.06) = 1/(1+e^0.06) ≈ 0.485
-```
+$$
+\text{Output layer:}\qquad
+W^{(2)} = \begin{bmatrix}
+0.7 & -0.5
+\end{bmatrix},
+\qquad
+b^{(2)} = 0.05
+$$
+
+$$
+z^{(2)} = 0.7(0.2) + (-0.5)(0.5) + 0.05 = 0.14 - 0.25 + 0.05=
+-0.06
+$$
+
+
+$$
+\hat{y} = \sigma(-0.06) = \frac{1}{1+e^{0.06}} \approx 0.485
+$$
 
 So the network currently predicts class-1 probability ≈ 0.485. Every quantity computed here (`z⁽¹⁾, a⁽¹⁾, z⁽²⁾, ŷ`) gets **cached**, because backpropagation (§6) reuses every one of them.
 
@@ -175,17 +234,17 @@ The loss function measures how wrong a prediction is; the network's entire job i
 
 Combine MSE with a Sigmoid output: `L = (y - σ(z))²`. Its derivative with respect to `z` works out to:
 
-```
+$$ 
 ∂L/∂z = -2(y - σ(z))·σ(z)(1 - σ(z))
-```
+$$
 
 Notice the `σ(z)(1-σ(z))` term — the same saturating derivative from §4.1. When the model is *very* wrong (e.g., `σ(z) ≈ 0` but `y = 1`), this term is close to 0, so the gradient is close to 0 exactly when you'd want the biggest correction. The model barely learns from its worst mistakes.
 
 Now combine Binary Cross-Entropy with Sigmoid instead. The two derivatives cancel almost perfectly:
 
-```
+$$
 ∂L/∂z = ŷ - y
-```
+$$
 
 This is clean, strong, and *linear* in the error — the more wrong the prediction, the bigger the gradient, with no saturating term dragging it back down. This cancellation is not a coincidence — it's the specific mathematical reason Sigmoid+BCE and Softmax+CCE are the standard pairings, rather than an arbitrary convention.
 
@@ -197,9 +256,9 @@ Backpropagation answers: *"given the loss, how much should each individual weigh
 
 It works by applying the **chain rule** of calculus, layer by layer, from the output back to the input:
 
-```
+$$
 ∂L/∂W⁽ˡ⁾ = ∂L/∂a⁽ᴸ⁾ · ∂a⁽ᴸ⁾/∂z⁽ᴸ⁾ · ∂z⁽ᴸ⁾/∂a⁽ᴸ⁻¹⁾ · ... · ∂a⁽ˡ⁾/∂z⁽ˡ⁾ · ∂z⁽ˡ⁾/∂W⁽ˡ⁾
-```
+$$
 
 In practice this is computed efficiently in two passes:
 1. **Forward pass** — compute and cache every layer's `z` and `a` (§3.1)
@@ -209,44 +268,106 @@ Each layer only needs to know: (a) the gradient flowing in from the layer after 
 
 ### 6.1 Worked numeric example (continuing §3.1)
 
-Using the forward pass from §3.1: `ŷ ≈ 0.485`. Suppose the true label is `y = 1`, and we use BCE + Sigmoid, so by §5.1: `∂L/∂z⁽²⁾ = ŷ - y = 0.485 - 1 = -0.515`. Call this `δ⁽²⁾ = -0.515`.
+Using the forward pass from §3.1, we have $\hat{y} \approx 0.485$. Suppose the true label is $y = 1$, and we use BCE + Sigmoid. By §5.1:
+
+$$
+\frac{\partial L}{\partial z^{(2)}}=
+\hat{y} - y
+=0.485 - 1
+=-0.515
+$$
+
+Call this $\delta^{(2)} = -0.515$.
 
 **Gradient for the output layer's weights and bias:**
-```
-∂L/∂W⁽²⁾ = δ⁽²⁾ · a⁽¹⁾ = -0.515 × [0.2, 0.5] = [-0.103, -0.2575]
-∂L/∂b⁽²⁾ = δ⁽²⁾ = -0.515
-```
 
-**Propagate the error back to the hidden layer.** First, how much does each hidden neuron's *output* affect the loss:
-```
-∂L/∂a⁽¹⁾ = δ⁽²⁾ · W⁽²⁾ = -0.515 × [0.7, -0.5] = [-0.3605, 0.2575]
-```
+$$
+\frac{\partial L}{\partial W^{(2)}}
+=\delta^{(2)} a^{(1)}
+=-0.515
+\begin{bmatrix}
+0.2 & 0.5
+\end{bmatrix}
+=\begin{bmatrix}
+-0.103 & -0.2575
+\end{bmatrix}
+$$
 
-Then multiply by ReLU's local derivative at each hidden neuron (`1` if `z⁽¹⁾ > 0`, else `0`). Both `z⁽¹⁾₁ = 0.2` and `z⁽¹⁾₂ = 0.5` were positive (§3.1), so both derivatives are 1:
-```
-δ⁽¹⁾ = [-0.3605, 0.2575] ⊙ [1, 1] = [-0.3605, 0.2575]
-```
+$$
+\frac{\partial L}{\partial b^{(2)}}=
+\delta^{(2)}
+=-0.515
+$$
 
-**Gradient for the hidden layer's weights:** each entry is `δ⁽¹⁾ᵢ × xⱼ`:
-```
-∂L/∂W⁽¹⁾ = [[-0.3605×1.0, -0.3605×0.5],
-             [ 0.2575×1.0,  0.2575×0.5]]
-          = [[-0.3605, -0.18025],
-             [ 0.2575,  0.12875]]
-∂L/∂b⁽¹⁾ = δ⁽¹⁾ = [-0.3605, 0.2575]
-```
+**Propagate the error back to the hidden layer.**
 
-Every gradient the network needs — for both layers — came from exactly one forward pass and one backward pass, reusing `z⁽¹⁾, a⁽¹⁾, z⁽²⁾` computed earlier. This is the whole trick: no gradient is ever recomputed from scratch for a deeper layer.
+First, how much does each hidden neuron's *output* affect the loss?
 
----
+$$
+\frac{\partial L}{\partial a^{(1)}}
+=\delta^{(2)} W^{(2)}=
+-0.515
+\begin{bmatrix}
+0.7 & -0.5
+\end{bmatrix}
+=\begin{bmatrix}
+-0.3605 & 0.2575
+\end{bmatrix}
+$$
+
+Then multiply by ReLU's local derivative at each hidden neuron ($1$ if $z^{(1)} > 0$, otherwise $0$). Both $z^{(1)}_1 = 0.2$ and $z^{(1)}_2 = 0.5$ were positive (§3.1), so both derivatives are $1$:
+
+$$
+\delta^{(1)}
+=\begin{bmatrix}
+-0.3605 & 0.2575
+\end{bmatrix}
+\odot
+\begin{bmatrix}
+1 & 1
+\end{bmatrix}
+=\begin{bmatrix}
+-0.3605 & 0.2575
+\end{bmatrix}
+$$
+
+**Gradient for the hidden layer's weights:**
+
+Each entry is $\delta^{(1)}_i \times x_j$:
+
+$$
+\frac{\partial L}{\partial W^{(1)}}
+=\begin{bmatrix}
+-0.3605 \times 1.0 & -0.3605 \times 0.5 \\
+0.2575 \times 1.0 & 0.2575 \times 0.5
+\end{bmatrix}
+$$
+
+$$
+=\begin{bmatrix}
+-0.3605 & -0.18025 \\
+0.2575 & 0.12875
+\end{bmatrix}
+$$
+
+$$
+\frac{\partial L}{\partial b^{(1)}}
+=\delta^{(1)}
+=\begin{bmatrix}
+-0.3605 & 0.2575
+\end{bmatrix}
+$$
+
+Every gradient the network needs—for both layers—came from exactly one forward pass and one backward pass, reusing $z^{(1)}$, $a^{(1)}$, and $z^{(2)}$ computed earlier. This is the whole trick: no gradient is ever recomputed from scratch for a deeper layer.
+
 
 ## 7. Gradient Descent
 
 Once you have `∂L/∂W` for every weight, gradient descent updates each weight by stepping *against* the gradient (downhill on the loss surface):
 
-```
+$$
 W := W - η · ∂L/∂W
-```
+$$
 
 - `η` (eta) is the **learning rate** — how big a step to take. Too large → overshoot/diverge. Too small → painfully slow convergence.
 
