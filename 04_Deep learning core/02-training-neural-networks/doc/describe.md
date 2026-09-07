@@ -34,11 +34,17 @@ $$
 
 **Why it's stable:** this is an unbiased, zero-variance estimate of the true gradient (it *is* the true gradient). If $L$ is convex and $\eta$ is small enough, batch GD is guaranteed to decrease $L$ monotonically every step.
 
-**Convergence rate (convex, $\eta$-Lipschitz-smooth $L$):**
+### Convergence rate (convex, $\eta_t$-Lipschitz-smooth $L$):
 
 $$
-L(W_t) - L(W^*) \le \frac{\|W_0 - W^*\|^2}{2\eta t}
+\sum_{t=1}^{\infty} \eta_t = \infty,
+\qquad
+\sum_{t=1}^{\infty} \eta_t^2 < \infty
 $$
+
+(e.g. $\eta_t = c/t$ satisfies both). The first condition ensures you can travel
+arbitrarily far if needed; the second ensures the accumulated noise variance
+stays finite so you actually settle down.
 
 This is an $O(1/t)$ rate — to halve your error you need roughly twice as many iterations. For strongly convex $L$, this improves to a linear rate $O(\rho^t)$ for some $\rho < 1$. Neural network losses are non-convex, so these bounds don't strictly apply, but they explain the *qualitative* behavior: batch GD's steps are well-behaved because the gradient direction is trustworthy.
 
@@ -72,11 +78,7 @@ Since $g_t$ is unbiased, all of its error is variance, not bias. This variance i
 
 **Convergence rate:** because of the variance, SGD with a *fixed* learning rate does not converge to $W^*$ exactly — it converges to a noise ball around it, of size roughly proportional to $\eta \cdot \text{Var}(g_t)$. To actually converge, $\eta$ must be *decayed* over time (this is the classical Robbins–Monro condition):
 
-$$
-\sum_t \eta_t = \infty, \qquad \sum_t \eta_t^2 < \infty
-$$
 
-(e.g. $\eta_t = c/t$ satisfies both). The first condition ensures you can travel arbitrarily far if needed; the second ensures the accumulated noise variance stays finite so you actually settle down.
 
 ---
 
