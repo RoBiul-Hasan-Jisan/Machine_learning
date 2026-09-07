@@ -1,86 +1,328 @@
-# 04 · Regularization
+# 04 · Regularization 
 
-A well-optimized network can still fail — by memorizing the training set instead of learning generalizable patterns. Regularization is the set of techniques that trade a little training accuracy for a lot more test-time (real-world) accuracy.
-
-## What you'll learn
-- **L1 Regularization** — penalizing the sum of absolute weight values
-- **L2 Regularization** — penalizing the sum of squared weight values
-- **Weight Decay** — L2 regularization's optimizer-side equivalent (and why it isn't *always* identical, see lesson 03's AdamW)
-- **Dropout** — randomly disabling neurons during training
-- **Early Stopping** — simply stopping training before you overfit
-- **Data Augmentation** — manufacturing more (varied) training data
-- **Batch Normalization** — normalizing activations between layers
+This is a companion to `04-regularization.md`. It fills in the mathematical
+"why" behind each technique: where the penalty terms come from, what
+optimization problem they're really solving, and how they connect to each
+other. Read the base lesson first — this assumes you know *what* each method
+does mechanically.
 
 ---
 
-## 1. L1 Regularization
+## 0. The bias–variance lens
 
-Adds the sum of absolute weight values to the loss:
+Every regularizer is answering the same underlying question: **how do I
+trade bias for variance?**
 
-```
-L_total = L_original + λ·Σ|wᵢ|
-```
-
-**Effect:** encourages **sparsity** — many weights get pushed exactly to zero, effectively performing automatic feature selection. Useful when you suspect many input features are irrelevant.
-
-## 2. L2 Regularization
-
-Adds the sum of *squared* weight values to the loss:
+For a model $\hat f$ trained on a random training set, the expected test
+error at a point $x$ decomposes as:
 
 ```
-L_total = L_original + λ·Σwᵢ²
+E[(y - f̂(x))²] = Bias(f̂(x))² + Var(f̂(x)) + σ²_noise
 ```
 
-**Effect:** shrinks all weights toward zero smoothly, but rarely to exactly zero — it discourages any single weight from becoming too large (which tends to correspond to over-reliance on a specific feature/pattern), spreading influence more evenly. This is the more common choice in deep learning.
+- **Bias** — error from the model being too *simple* to capture the true
+  pattern (underfitting).
+- **Variance** — error from the model being too *sensitive* to the
+  particular training set it happened to see (overfitting). A
+  high-variance model would give a very different fit if you resampled the
+  training data.
+- **Irreducible noise** — $\sigma^2$, the noise floor in $y$ itself.
 
-**L1 vs L2 intuition:** L1's gradient is constant (`±λ`) regardless of weight size, so it keeps pushing small weights all the way to zero. L2's gradient (`2λw`) shrinks as the weight shrinks, so it asymptotically approaches — but rarely reaches — zero.
+An unregularized, high-capacity network (many parameters, trained to
+convergence) tends to sit in the low-bias/high-variance regime — it fits
+training data almost perfectly, but that fit is unstable across resamples.
+**Every regularization technique in this lesson is a variance-reduction
+tool.** It intentionally injects a small amount of bias (worse training fit)
+to buy a larger reduction in variance (better, more stable test fit). This
+is *the* single unifying idea — keep it in mind as we go through the math.
 
-## 3. Weight Decay
+---
 
-Weight decay directly shrinks weights toward zero at every optimizer step, independent of the loss gradient:
+## 1. L1 / L2 as MAP estimation (the Bayesian view)
 
-```
-W := W - η·λ·W    (the decay term)
-```
-
-For plain SGD, adding `λw` to the gradient (L2 regularization) is *mathematically equivalent* to weight decay. This equivalence famously breaks for Adam (see lesson 03's AdamW) — which is exactly why AdamW's *decoupled* weight decay was introduced.
-
-## 4. Dropout
-
-During training, **randomly zero out** a fraction `p` of neurons in a layer on every forward pass (a different random subset each time):
-
-```
-during training:  a := a * mask,   mask ~ Bernoulli(1-p), scaled by 1/(1-p)
-during inference: use all neurons, no masking (scaling above keeps expected activation magnitude consistent)
-```
-
-**Why it works:** it prevents neurons from co-adapting too heavily on specific other neurons (relying on a "team" of neurons that happen to work together on the training set). Effectively, dropout trains an exponential ensemble of thinned sub-networks simultaneously, and at inference time you get an approximation of averaging all of them.
-
-## 5. Early Stopping
-
-Monitor validation loss during training; stop (and keep the best checkpoint) once it stops improving for a set number of epochs (the "patience"), even if training loss is still decreasing.
-
-**Why it works:** training loss almost always keeps decreasing the longer you train (the model keeps fitting the training data more closely), but validation loss typically decreases, bottoms out, then starts rising again as the model begins memorizing training-set-specific noise instead of general patterns. Early stopping catches the model at that turning point.
-
-## 6. Data Augmentation
-
-Artificially expand the effective size and diversity of the training set by applying label-preserving transformations: random crops/flips/rotations/color jitter for images, synonym replacement/back-translation for text, time-warping/noise-injection for time series, etc.
-
-**Why it works:** overfitting happens partly because the model sees too few *variations* of each underlying pattern. Augmentation exposes the model to many more variations without needing to collect more real data, making it harder to simply memorize any single exact training example.
-
-## 7. Batch Normalization
-
-Normalizes each layer's activations (zero mean, unit variance) across a mini-batch, then applies a learnable scale `γ` and shift `β`:
+Ordinary training minimizes the negative log-likelihood of the data given
+weights $W$:
 
 ```
-x̂ = (x - μ_batch) / √(σ²_batch + ε)
-y = γ·x̂ + β                          (γ, β are learned parameters)
+Ŵ_MLE = argmin_W  -log P(D | W)
 ```
 
-**Why it's (partly) a regularizer:** normalization statistics (`μ_batch`, `σ²_batch`) are computed from a *randomly sampled mini-batch*, so they're slightly noisy from batch to batch — this injects a small amount of noise into training, similar in spirit to dropout, which has a mild regularizing effect. (Batch norm's primary purpose is actually training stability/speed — see the "why" note below — but its regularizing side-effect is well documented.)
+This is maximum likelihood estimation (MLE), and it has no mechanism to
+prefer "simple" weights — it will happily drive weights to whatever values
+fit the training set best, however large or specific.
 
-**The primary reason it was introduced:** to combat "internal covariate shift" — as earlier layers' weights update, the *distribution* of inputs to later layers keeps shifting, forcing those later layers to constantly re-adapt. Normalizing activations between layers keeps their distribution more stable throughout training, which in practice allows much higher learning rates and faster convergence, on top of the regularization side-benefit.
+**Bayesian regularization** puts a *prior* $P(W)$ on the weights and
+maximizes the posterior instead:
 
-## Run the code
-[`04-regularization.ipynb`] — implements L1/L2 penalties, Dropout, and Batch Normalization from scratch in NumPy, demonstrates early stopping and data augmentation, then reproduces the comparison with PyTorch's `nn.Dropout`, `nn.BatchNorm1d`, and `weight_decay`.
+```
+Ŵ_MAP = argmax_W  P(W | D) = argmax_W  P(D | W)·P(W)
+       = argmin_W  [-log P(D | W)  -  log P(W)]
+```
 
+The `-log P(W)` term is exactly your regularization penalty. Two natural
+priors give you the two penalties from the base lesson:
+
+**Gaussian prior → L2.** If each weight is assumed i.i.d. $w_i \sim
+\mathcal{N}(0, \tau^2)$, then:
+
+```
+-log P(W) = -log ∏ᵢ [1/√(2πτ²)] exp(-wᵢ²/2τ²)
+          = (1/2τ²)·Σᵢ wᵢ²  +  const
+```
+
+That's a constant times $\Sigma w_i^2$ — precisely the L2 penalty, with
+$\lambda = 1/2\tau^2$. A **small prior variance $\tau^2$** (strong belief
+that weights are near zero) corresponds to a **large $\lambda$** (strong
+regularization). This is why L2 is often called "weight decay under a
+Gaussian prior."
+
+**Laplace prior → L1.** If instead $w_i \sim \text{Laplace}(0, b)$, with
+density $\frac{1}{2b}\exp(-|w_i|/b)$:
+
+```
+-log P(W) = (1/b)·Σᵢ |wᵢ|  +  const
+```
+
+— exactly the L1 penalty, $\lambda = 1/b$. The Laplace distribution has a
+sharp peak (non-differentiable cusp) at zero and heavier tails than a
+Gaussian. That cusp is *why* L1 produces exact zeros: the prior is telling
+the optimizer "I believe most weights are exactly zero, with a few large
+exceptions," which is a fundamentally different structural assumption than
+the Gaussian's "all weights are small-ish."
+
+This reframes the whole lesson: **regularization = encoding a prior belief
+about what a "reasonable" weight looks like, then finding the MAP estimate
+instead of the MLE.**
+
+---
+
+## 2. Penalty form vs. constraint form (Lagrangian duality)
+
+The penalized objective:
+
+```
+minimize_W   L(W) + λ·R(W)
+```
+
+is the *Lagrangian relaxation* of a constrained problem:
+
+```
+minimize_W   L(W)
+subject to   R(W) ≤ t
+```
+
+for some budget $t$ that's a decreasing function of $\lambda$ (Lagrange
+multiplier duality — for convex $L$ and $R$, every $\lambda \geq 0$
+corresponds to some $t \geq 0$ and the two problems have the same
+solution). This is worth sitting with because it makes the geometry of
+L1-vs-L2 sparsity concrete:
+
+- **L2 constraint** $\Sigma w_i^2 \leq t$ describes a **ball** (smooth,
+  round) in weight space.
+- **L1 constraint** $\Sigma |w_i| \leq t$ describes a **cross-polytope**
+  (a diamond in 2D, an octahedron in 3D) — a shape with sharp *corners*
+  sitting exactly on the coordinate axes.
+
+The unconstrained loss $L(W)$ has elliptical contours in weight space, and
+the constrained solution is the point where the smallest such contour
+first touches the constraint region. Because the L1 polytope's corners lie
+*on the axes* (i.e., at points where some $w_i = 0$), contours are
+disproportionately likely to first touch at a corner — producing an exact
+zero. The L2 ball has no preferred contact point along the axes, so the
+touching point is generically some smooth combination of all coordinates,
+none exactly zero. This is the geometric version of the gradient argument
+in the base lesson (constant vs. shrinking gradient near zero) — same
+conclusion, different lens.
+
+---
+
+## 3. Weight decay: SGD vs. Adam, worked out
+
+Base lesson claims L2-regularization and weight-decay are equivalent for
+SGD but *not* for Adam. Here's the derivation.
+
+**Plain SGD.** L2-regularized loss is $L_{tot} = L + \frac{\lambda}{2}\|W\|^2$.
+Its gradient adds $\lambda W$ to the raw gradient $g = \nabla L$:
+
+```
+W ← W - η(g + λW) = W - ηg - ηλW
+```
+
+That's exactly "take a normal SGD step, then shrink $W$ by factor
+$(1-\eta\lambda)$" — i.e. decoupled weight decay. **They're identical for
+SGD.**
+
+**Adam.** Adam doesn't apply the raw gradient directly — it rescales each
+coordinate by a running estimate of its second moment:
+
+```
+m ← β₁m + (1-β₁)g
+v ← β₂v + (1-β₂)g²
+W ← W - η · m/(√v + ε)
+```
+
+If you fold the L2 penalty into $g$ (i.e. $g \to g + \lambda W$) *before*
+this, the $\lambda W$ term gets divided by $\sqrt{v}+\varepsilon$ along with
+everything else. Since $v$ (and hence the effective step size) differs
+**per parameter** and changes over training, the amount of actual shrinkage
+applied to each weight becomes coupled to that weight's gradient history —
+weights with small historical gradients get *disproportionately large*
+decay relative to their gradient signal, and vice versa. This is an
+accidental, uncontrolled side-effect, not the intended "shrink every
+weight by a fixed proportion" behavior.
+
+**AdamW's fix** is to apply the decay *outside* Adam's normalization
+entirely:
+
+```
+W ← W - η·m/(√v + ε) - η·λ·W        (decay term added after, unscaled by v)
+```
+
+This restores the clean "shrink every weight by the same proportion each
+step" semantics, decoupled from the adaptive learning rate — hence
+*decoupled* weight decay.
+
+---
+
+## 4. Dropout as implicit ensembling — the math
+
+Dropout's "why it works" story is usually stated informally ("prevents
+co-adaptation"). Here's the more precise version.
+
+For a layer with $n$ units, applying dropout with keep-probability $1-p$
+per forward pass samples one of $2^n$ possible "thinned" sub-networks
+(each unit present or absent). Training with dropout over many steps
+approximates training an **exponential ensemble** of these $2^n$
+sub-networks, with extensive weight sharing between them (since they all
+draw from the same underlying weight matrix).
+
+At inference, we don't actually average $2^n$ networks' outputs (that's
+intractable). Instead we use the full network with **no** dropout, but
+with each unit's *outgoing* weights scaled to match its expected value
+during training. If a unit was kept with probability $1-p$ during
+training, its expected contribution to the next layer was $(1-p)\cdot a$
+where $a$ is its full activation. Two equivalent ways to match that at
+inference:
+
+- **Scale at test time:** multiply activations by $(1-p)$ at inference
+  (the classical formulation), or
+- **Inverted dropout** (what the base lesson's pseudocode uses): scale by
+  $1/(1-p)$ *during training* instead, so inference needs no
+  modification at all — this is what virtually all modern frameworks
+  implement, because it keeps the inference graph identical to a
+  dropout-free network.
+
+This inference-time rescaled full network is a first-order (single
+forward pass) approximation to the true ensemble average — known as the
+**weight-scaling rule**, and it's provably exact for a single linear
+layer, and empirically a very good approximation for the deep nonlinear
+case.
+
+**A second, complementary view:** dropout is equivalent (in expectation,
+to first order) to an L2-type penalty that scales with each unit's
+squared activation and the layer's dropout rate — i.e., it's not *only*
+an ensembling trick, it also has an adaptive, data-dependent regularizing
+effect similar in spirit to L2, but applied to activations rather than
+weights directly.
+
+---
+
+## 5. Early stopping ≈ L2 regularization (for quadratic loss)
+
+This is a classical (Bishop-style) result that ties early stopping back
+to L2, closing the loop between two seemingly unrelated techniques.
+
+Consider a quadratic loss (a 2nd-order Taylor expansion of $L(W)$ around
+the unconstrained minimizer $W^*$), and diagonalize the Hessian $H$ via
+its eigendecomposition. Gradient descent with learning rate $\eta$, after
+$\tau$ steps, shrinks each eigen-direction $i$ toward $W_i^*$ by a factor
+that depends on that direction's eigenvalue $h_i$ and on $\tau$:
+
+```
+shrinkage factor ≈ 1 - (1 - ηh_i)^τ
+```
+
+Compare this to the closed-form solution of **L2-regularized** least
+squares, whose shrinkage factor in the same eigenbasis is:
+
+```
+shrinkage factor = h_i / (h_i + λ)
+```
+
+Both expressions do the same qualitative thing: **shrink low-curvature
+("flat") directions more aggressively than high-curvature ("steep")
+directions**, relative to the unconstrained optimum. In the early-stopping
+formula, fewer steps $\tau$ (or smaller $\eta$) behaves like *larger*
+$\lambda$; more steps behaves like *smaller* $\lambda$ (less
+regularization, approaching the unregularized MLE as $\tau\to\infty$).
+This is why early stopping and L2 are often described as approximately
+interchangeable for quadratic/near-quadratic loss surfaces — **the number
+of training steps itself acts as an inverse regularization strength.**
+
+---
+
+## 6. Batch normalization — the actual gradient, and why it complicates the "regularizer" story
+
+For completeness, the backward pass through a batchnorm layer (batch size
+$m$, per-feature) requires differentiating through the batch statistics
+themselves, since $\mu_B$ and $\sigma_B^2$ are *functions of every example
+in the batch*:
+
+```
+∂L/∂x̂ᵢ = ∂L/∂yᵢ · γ
+
+∂L/∂σ²_B = Σᵢ ∂L/∂x̂ᵢ · (xᵢ - μ_B) · (-1/2)(σ²_B + ε)^(-3/2)
+
+∂L/∂μ_B  = Σᵢ ∂L/∂x̂ᵢ · (-1/√(σ²_B+ε))  +  ∂L/∂σ²_B · Σᵢ -2(xᵢ-μ_B)/m
+
+∂L/∂xᵢ   = ∂L/∂x̂ᵢ/√(σ²_B+ε) + ∂L/∂σ²_B·2(xᵢ-μ_B)/m + ∂L/∂μ_B/m
+```
+
+The key structural fact buried in this: **the gradient with respect to
+any single example $x_i$ depends on every other example in the batch**
+(through $\mu_B$ and $\sigma_B^2$). This is *exactly* the mechanism behind
+its regularizing side-effect — each example's effective loss landscape is
+being perturbed by whichever other examples happened to land in its
+minibatch, which changes randomly every epoch. It's also why batch norm's
+behavior is **batch-size dependent** (small batches → noisier $\mu_B,
+\sigma_B^2$ → more regularization but less stable training statistics),
+and why it needs a different formulation at inference (running averages
+of $\mu_B, \sigma_B^2$ accumulated over training, since there's no "batch"
+at inference time for a single query).
+
+---
+
+## 7. Why these all "work": a capacity-control unification
+
+Formal learning theory (VC dimension, Rademacher complexity) bounds the
+gap between training error and test error as an increasing function of a
+model's **effective capacity** — roughly, how many different labelings
+of the training data the model *could* fit if it needed to. Every
+technique above reduces effective capacity without reducing the *raw*
+parameter count:
+
+| Technique | How it reduces effective capacity |
+|---|---|
+| L1 / L2 | Shrinks the *usable range* of each weight (small-norm hypothesis space) |
+| Dropout | Forces robustness to any single unit's removal → shared-representation capacity, not $2^n$ independent sub-networks |
+| Early stopping | Restricts optimization to weights reachable in $\tau$ steps from initialization — a strictly smaller reachable set than the full unconstrained optimum |
+| Data augmentation | Doesn't shrink the hypothesis space directly — instead enlarges the *effective* dataset, which shrinks the generalization gap for a fixed hypothesis space |
+| Batch norm | Adds training-time stochastic noise, functioning similarly to a soft, batch-size-dependent penalty |
+
+This is the thread connecting the "what" (base lesson) to the "why"
+(this doc): raw parameter count is a poor proxy for a model's true
+capacity to overfit, and every regularizer is a different lever for
+controlling *effective* capacity instead.
+
+## Suggested follow-up reading
+- Bishop, *Pattern Recognition and Machine Learning*, Ch. 3.3 (Bayesian
+  linear regression) and Ch. 5.5.2 (early stopping as regularization)
+- Srivastava et al. 2014, "Dropout: A Simple Way to Prevent Neural
+  Networks from Overfitting" (the weight-scaling approximation is proven
+  here for the linear case)
+- Loshchilov & Hutter 2017, "Decoupled Weight Decay Regularization"
+  (AdamW) — the SGD/Adam mismatch derivation in full
+- Ioffe & Szegedy 2015, "Batch Normalization" — original internal
+  covariate shift argument, plus later critiques (Santurkar et al. 2018)
+  arguing the loss-landscape-smoothing effect matters more than
+  covariate shift
