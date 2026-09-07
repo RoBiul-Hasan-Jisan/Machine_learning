@@ -4,15 +4,16 @@ A deeper, more mathematical companion to the optimization lesson. Same structure
 
 ---
 
+
 ## 0. Reframing the Core Problem: Curvature and Conditioning
 
 Near a local minimum, a twice-differentiable loss can be approximated by its second-order Taylor expansion:
 
 $$
-L(W) \approx L(W^*) + \frac{1}{2}(W-W^*)^\top H (W-W^*)
+L(W) \approx L(W^\star) + \frac{1}{2}(W-W^\star)^\top H(W-W^\star)
 $$
 
-where $H = \nabla^2 L(W^*)$ is the Hessian. The eigenvalues of $H$, $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_n > 0$, describe the curvature along each principal direction. The **condition number**
+where $H = \nabla^2 L(W^{*})$ is the Hessian. The eigenvalues of $H$, $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_n > 0$, describe the curvature along each principal direction. The **condition number**
 
 $$
 \kappa = \frac{\lambda_{\max}}{\lambda_{\min}}
