@@ -65,8 +65,7 @@ There are **13 unique words**:
 For Multinomial Naive Bayes, using Laplace (add-1) smoothing:
 
 $$
-P(w\mid c)
-=
+P(w\mid c)=
 \frac{\text{count}(w,c)+1}
 {N_c+|V|}
 $$
@@ -165,8 +164,7 @@ $$
 Using:
 
 $$
-\text{Score}(c)
-=
+\text{Score}(c)=
 P(c)\times P(\text{email}\mid c)
 $$
 
@@ -254,8 +252,7 @@ $$
 For Bernoulli Naive Bayes:
 
 $$
-P(w=1\mid c)
-=
+P(w=1\mid c)=
 \frac{\text{count}(w=1,c)+1}{N_c+2}
 $$
 
@@ -339,28 +336,24 @@ $$
 Positive posterior score:
 
 $$
-\text{Score(Positive)}
-=
+\text{Score(Positive)}=
 P(\text{Positive})\times P(\text{review}\mid\text{Positive})
 $$
 
 $$
-=0.5\times0.01007
-=
+=0.5\times0.01007=
 5.033\times10^{-3}
 $$
 
 Negative posterior score:
 
 $$
-\text{Score(Negative)}
-=
+\text{Score(Negative)}=
 P(\text{Negative})\times P(\text{review}\mid\text{Negative})
 $$
 
 $$
-=0.5\times1.475\times10^{-5}
-=
+=0.5\times1.475\times10^{-5}=
 7.37\times10^{-6}
 $$
 
@@ -410,8 +403,7 @@ The campus health center recorded the following data:
 The Gaussian PDF is:
 
 $$
-f(x)
-=
+f(x)=
 \frac{1}{\sigma\sqrt{2\pi}}
 \exp\left(
 -\frac{(x-\mu)^2}{2\sigma^2}
