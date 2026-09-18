@@ -221,16 +221,34 @@ Regularization is applied similarly to XGBoost — L1/L2 penalties on leaf weigh
 
 ## 12. Why `num_leaves` Is the Parameter to Watch
 
-Because LightGBM grows trees **leaf-wise** rather than level-wise, tree complexity is governed more directly by the **number of leaves** than by depth alone — a leaf-wise tree with a fixed depth limit can still have far more (or far fewer) leaves than an equivalent level-wise tree, since leaf-wise growth doesn't fill out every branch uniformly.
+Because LightGBM grows trees **leaf-wise** rather than level-wise, tree complexity is governed more directly by the **number of leaves** than by depth alone. A leaf-wise tree with a fixed depth limit does not necessarily fill every branch uniformly, because LightGBM repeatedly splits the leaf that provides the highest gain.
 
 ```python
 num_leaves = 31  # LightGBM's default
 ```
 
-- **More leaves** → higher potential accuracy (more expressive tree), but higher overfitting risk.
-- **Fewer leaves** → more conservative, less prone to overfitting, but potentially underfitting.
+* **More leaves** → higher potential accuracy (more expressive tree), but higher overfitting risk.
+* **Fewer leaves** → more conservative, less prone to overfitting, but potentially underfitting.
 
-A useful rule of thumb when converting intuition from depth-based tuning: `num_leaves` should generally be **less than** $2^{\text{max\_depth}}$ for a roughly comparable level of complexity to a depth-limited level-wise tree — setting it equal to or greater invites significantly higher overfitting risk given leaf-wise growth's tendency to chase the highest-gain leaf regardless of resulting tree shape.
+For example:
+
+$$
+\mathrm{max\_depth} = 5
+$$
+
+$$
+2^5 = 32
+$$
+
+$$
+\mathrm{num\_leaves} \approx 31
+$$
+
+
+This gives a rough complexity constraint similar to the maximum number of leaves possible in a fully balanced level-wise binary tree of that depth. However, this is only a **rule of thumb**, not a guarantee of equivalent model complexity. Because LightGBM grows trees leaf-wise, the resulting tree can be highly unbalanced even when `num_leaves` is relatively small.
+
+Therefore, when tuning LightGBM, `num_leaves` is one of the most important parameters to watch, especially alongside `max_depth`, `min_child_samples`, and regularization parameters.
+
 
 ### Complexity Comparison
 
