@@ -2,7 +2,7 @@
 
 A complete, structured walkthrough of CatBoost: why categorical features break naive boosting, how ordered target statistics and ordered boosting actually fix target leakage and prediction shift, how symmetric trees work, and practical tuning.
 
----
+
 
 ## 1. What is CatBoost?
 
@@ -143,17 +143,83 @@ CatBoost trains using **ordered permutations** of the data (extending the same i
 
 ## 8. Symmetric (Oblivious) Trees
 
-One of CatBoost's most distinctive structural choices.
+One of CatBoost's most distinctive structural choices is its use of **symmetric (oblivious) decision trees**.
 
-### Traditional (asymmetric) trees — used by XGBoost, LightGBM
+### Traditional / Asymmetric Tree
 
-Different branches of the tree can use entirely different split conditions:
+In an asymmetric tree, **different nodes can use different split conditions**.
+
+```mermaid
+flowchart TD
+    A["Age > 30?"]
+    A -->|Yes| B["Income > 50K?"]
+    A -->|No| C["Score > 70?"]
+
+    B -->|Yes| D["Class A"]
+    B -->|No| E["Class B"]
+
+    C -->|Yes| F["Class A"]
+    C -->|No| G["Class C"]
+```
+
+Notice that at the second level:
+
+* Left branch uses **Income > 50K?**
+* Right branch uses **Score > 70?**
+
+So, each node can choose its own split.
+
+---
+
+### CatBoost Symmetric / Oblivious Tree
+
+In CatBoost, **all nodes at the same depth use the same split condition**.
+
+```mermaid
+flowchart TD
+    A["Depth 0<br/>Age > 30?"]
+
+    A -->|Yes| B["Depth 1<br/>Income > 50K?"]
+    A -->|No| C["Depth 1<br/>Income > 50K?"]
+
+    B -->|Yes| D["Depth 2<br/>Score > 70?"]
+    B -->|No| E["Depth 2<br/>Score > 70?"]
+
+    C -->|Yes| F["Depth 2<br/>Score > 70?"]
+    C -->|No| G["Depth 2<br/>Score > 70?"]
+
+    D --> H["Class A"]
+    E --> I["Class B"]
+    F --> J["Class A"]
+    G --> K["Class C"]
+```
+
+The important pattern is:
 
 ```text
-Age > 30?
-    /      \
- Income?   Score?
+Depth 0 → Age > 30?
+Depth 1 → Income > 50?     ← same split everywhere
+Depth 2 → Score > 70?      ← same split everywhere
 ```
+
+### The Key Difference
+
+```mermaid
+flowchart LR
+    A["Asymmetric Tree"] --> B["Different split<br/>at each node"]
+
+    C["CatBoost<br/>Oblivious Tree"] --> D["Same split<br/>at each depth"]
+```
+---
+### Interview Memory Trick
+
+> **Asymmetric:** One node → one possible split.
+> **Oblivious:** One depth → one shared split.
+
+So, when you hear **CatBoost + Oblivious Tree**, immediately remember:
+
+**Same split condition for every node at the same depth.**
+
 
 ### CatBoost's symmetric ("oblivious") trees
 
