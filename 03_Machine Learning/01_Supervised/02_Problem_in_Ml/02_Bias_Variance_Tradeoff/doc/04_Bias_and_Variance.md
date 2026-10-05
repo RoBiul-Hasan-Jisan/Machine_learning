@@ -4,9 +4,9 @@
 
 The word **bias** is used in several different ways in ML. Most confusion comes from mixing them up, so this note separates each meaning, then connects them.
 
----
 
-##  Quick Map: The 5 Meanings of "Bias"
+
+## 0. Quick Map: The 5 Meanings of "Bias"
 
 | # | Meaning | One-line idea | Related to |
 |---|---------|---------------|------------|
@@ -19,6 +19,14 @@ The word **bias** is used in several different ways in ML. Most confusion comes 
 ---
 
 ## 1. Bias as a Parameter (Intercept Term)
+
+### Definition
+
+> **Bias is a learnable intercept term that shifts the activation / decision boundary, allowing a model to fit patterns that cannot be represented by weights alone.**
+
+- It is **learned** during training, just like the weights.
+- It **shifts** the output (or the decision boundary) without changing the slope.
+- It gives the model **flexibility**: weights alone can only rotate the line around the origin; the bias lets it move.
 
 ### Equation
 
@@ -52,7 +60,7 @@ $$z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b$$
 
 Here `b` shifts the neuron's activation / decision boundary, so a neuron can activate even when all inputs are zero.
 
-> **Interview definition:** Bias is a learnable intercept term that shifts the activation or decision boundary, allowing a model to fit patterns that cannot be represented by weights alone.
+> Bias is a learnable intercept term that shifts the activation or decision boundary, allowing a model to fit patterns that cannot be represented by weights alone.
 
 **Important:** this `b` has **nothing to do with unfairness** or underfitting. It is just a parameter learned during training.
 
@@ -144,6 +152,31 @@ The model ignores location, bedrooms, neighborhood and market conditions.
 Variance measures how much a model's predictions **change when trained on different datasets**. A high-variance model fits the training data too closely, including noise.
 
 > **Variance means the model is too sensitive to the training data.**
+
+### Formal Definition
+
+> **Variance is the amount by which a model's predictions change when it is trained on different samples of the training data. High variance means the model fits the noise in the training set and fails to generalize.**
+
+$$\text{Variance} = E\Big[\big(\hat{f}(x) - E[\hat{f}(x)]\big)^2\Big]$$
+
+This is the average squared spread of the model's predictions around its own **average prediction**, measured across many different training sets.
+
+### Bias vs Variance: Same Style of Definition
+
+| | Bias | Variance |
+|---|------|----------|
+| Formula | $E[\hat{f}(x)] - f(x)$ | $E[(\hat{f}(x) - E[\hat{f}(x)])^2]$ |
+| Measures | How far the **average prediction** is from the truth | How much predictions **scatter** around their average |
+| Cause | Overly simple assumptions | Over-sensitivity to training data |
+| Result | Underfitting | Overfitting |
+| One-liner | Model is consistently wrong in one direction | Model is inconsistent from one training set to another |
+
+### Common Confusions About Variance
+
+- **Variance is not the error on one sample.** Error / residual is `actual − predicted` for a single point. Variance is about how predictions **vary across different training sets**.
+- **Model variance is not data variance.** The variance of a feature (how spread out the values are) is a different idea from the variance of a model's predictions.
+- **Unlike bias, variance has no parameter meaning.** Bias has two meanings (the intercept `b` and the statistical error). Variance only has the statistical meaning (plus the unrelated "variance of the data" in statistics).
+- **Low training error does not mean low variance.** A model with near-zero training error and high test error has **high** variance.
 
 ### Example: High Variance
 
@@ -328,11 +361,10 @@ This is the meaning used in news and AI ethics: a model produces **systematicall
 6. **Inductive bias** is a helpful assumption; **data/fairness bias** is a harmful distortion.
 7. A good model learns real patterns, ignores noise, and performs well on **unseen data**.
 
-### Interview one-liners
 
-- **Bias (parameter):** A learnable intercept that shifts the decision boundary.
+
+- **Bias (parameter):** A learnable intercept term that shifts the activation / decision boundary, allowing a model to fit patterns that cannot be represented by weights alone.
 - **Bias (statistical):** The error from overly simple assumptions; high bias leads to underfitting.
-- **Variance:** The sensitivity of a model to changes in the training data; high variance leads to overfitting.
+- **Variance:** The amount by which a model's predictions change when trained on different samples of data; high variance means it fits noise and fails to generalize.
 - **Bias-variance tradeoff:** Increasing complexity lowers bias but raises variance, so we look for the sweet spot.
 - **Fairness bias:** Systematic unfair outcomes for certain groups caused by skewed data or design.
-
