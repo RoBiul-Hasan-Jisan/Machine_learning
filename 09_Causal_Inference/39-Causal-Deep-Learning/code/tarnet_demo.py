@@ -1,4 +1,4 @@
-""" TARNet (shared-body two-head net) vs a fully separate T-learner (both NumPy MLPs)."""
+""" TARNet (shared-body two-head net) vs a fully separate T-learner """
 import numpy as np
 
 rng = np.random.default_rng(0)
