@@ -1,4 +1,4 @@
-""" Adjusting for a noisy proxy of a confounder (e.g. an embedding-derived score)."""
+""" Adjusting for a noisy proxy of a confounder """
 import numpy as np
 
 rng = np.random.default_rng(0)
